@@ -6,3 +6,6 @@
 node_modules/
 .playwright-mcp/
 *.log
+FLIGHT_MODE.md
+.flight-state.md
+.flight-state-*.md
