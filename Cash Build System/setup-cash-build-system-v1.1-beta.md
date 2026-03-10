@@ -410,6 +410,9 @@ Create the `.claude/hooks/` directory and write the command-type hook scripts.
 # TRACES.md, LEARNINGS.md, ROADMAP.md are always exempt — they must never be blocked
 # because the Stop hook requires updating them.
 
+# jq is required for parsing hook input JSON
+command -v jq >/dev/null 2>&1 || exit 0
+
 INPUT=$(cat)
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.filePath // empty')
 AGENT_ID=$(echo "$INPUT" | jq -r '.agent_id // empty')
@@ -435,17 +438,15 @@ fi
 
 # Match against the list (exact whole-line match on basename to avoid false positives)
 if [ -n "$BASENAME" ] && grep -qxF "$BASENAME" "$SEQ_FILE" 2>/dev/null; then
-  # Use JSON additionalContext so Claude actually sees the warning (plain stderr is verbose-only)
-  cat <<EOF
-{
-  "hookSpecificOutput": {
-    "hookEventName": "PreToolUse",
-    "permissionDecision": "allow",
-    "permissionDecisionReason": "Allowed, but warning: $BASENAME is a Sequential file. Ensure no other agent is editing it simultaneously.",
-    "additionalContext": "Warning: $BASENAME is listed in .claude/sequential-files.txt as a Sequential file. If other agents are running in parallel, coordinate to avoid merge conflicts."
-  }
-}
-EOF
+  # Use jq to safely build JSON (prevents injection from filenames with special chars)
+  jq -n --arg bn "$BASENAME" '{
+    hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "allow",
+      permissionDecisionReason: ("Allowed, but warning: " + $bn + " is a Sequential file. Ensure no other agent is editing it simultaneously."),
+      additionalContext: ("Warning: " + $bn + " is listed in .claude/sequential-files.txt as a Sequential file. If other agents are running in parallel, coordinate to avoid merge conflicts.")
+    }
+  }'
   exit 0
 fi
 
@@ -460,6 +461,9 @@ exit 0
 # when code files were modified but traces weren't updated.
 # Uses exit 2 + stderr to inject reminder into Claude's context.
 # Exit 0 = Claude stops normally. Exit 2 = Claude continues with stderr as context.
+
+# jq is required for parsing hook input JSON
+command -v jq >/dev/null 2>&1 || exit 0
 
 INPUT=$(cat)
 
@@ -476,9 +480,9 @@ fi
 
 cd "$CWD" 2>/dev/null || exit 0
 
-# Check if any code files were modified (staged, unstaged, or untracked)
+# Check if any tracked code files were modified (staged or unstaged)
 # Uses git status --porcelain which works even on repos with no commits
-# Exclude TRACES.md, LEARNINGS.md, ROADMAP.md, CLAUDE.md, .claude/, and all .md/.txt files
+# Exclude TRACES.md, LEARNINGS.md, ROADMAP.md, CLAUDE.md, .claude/, all .md/.txt files, and untracked files
 CODE_CHANGES=$(git status --porcelain 2>/dev/null | grep -vE '(TRACES\.md|LEARNINGS\.md|ROADMAP\.md|CLAUDE\.md|\.claude/)' | grep -vE '\.(md|txt)$' | grep -vE '^\?\?' | head -1)
 
 # If no code files changed, no reminder needed
@@ -486,8 +490,8 @@ if [ -z "$CODE_CHANGES" ]; then
   exit 0
 fi
 
-# Check if TRACES.md or ROADMAP.md was updated in this session (modified time within last hour)
-# If either was recently updated, assume Claude is tracking the session properly
+# Check if TRACES.md was updated in this session (modified time within last hour)
+# If recently updated, assume Claude is tracking the session properly
 NOW=$(date +%s)
 
 if [ -f "TRACES.md" ]; then
@@ -500,7 +504,11 @@ fi
 
 # Build reminder listing what needs updating
 REMIND=""
-REMIND="${REMIND}(1) Add an iteration entry to TRACES.md. "
+if [ -f "TRACES.md" ]; then
+  REMIND="${REMIND}(1) Add an iteration entry to TRACES.md. "
+else
+  REMIND="${REMIND}(1) Create TRACES.md and add an iteration entry (run /setup-cash-build-system if not yet set up). "
+fi
 
 if [ -f "ROADMAP.md" ]; then
   ROADMAP_MOD=$(stat -f %m "ROADMAP.md" 2>/dev/null || stat -c %Y "ROADMAP.md" 2>/dev/null || echo 0)
@@ -651,7 +659,7 @@ Add/merge these hooks:
 }
 ```
 
-**Why command type:** Checking a filename against a text file list is deterministic — no LLM needed. The script reads `.claude/sequential-files.txt` (not CLAUDE.md — no circular dependency). Always exits 0 (never blocks). Uses JSON `additionalContext` field so Claude actually sees the warning (plain stderr is verbose-mode-only and invisible to Claude). Uses `agent_id` field to detect subagents (only present when hook fires inside a subagent — main session has no `agent_id`). Exempts TRACES.md, LEARNINGS.md, and ROADMAP.md to prevent conflict with the Stop hook (which requires updating these files). Uses `cwd` from JSON input for the file path (safer than relying on `CLAUDE_PROJECT_DIR` env var propagation). Uses `grep -qxF` for exact whole-line matching (prevents `CLAUDE.md` from matching `MY_CLAUDE.md`).
+**Why command type:** Checking a filename against a text file list is deterministic — no LLM needed. The script reads `.claude/sequential-files.txt` (not CLAUDE.md — no circular dependency). Always exits 0 (never blocks). Uses `jq -n --arg` to safely build JSON output (prevents injection from filenames with special characters). Uses JSON `additionalContext` field so Claude actually sees the warning (plain stderr is verbose-mode-only and invisible to Claude). Uses `agent_id` field to detect subagents (only present when hook fires inside a subagent — main session has no `agent_id`). Exempts TRACES.md, LEARNINGS.md, and ROADMAP.md to prevent conflict with the Stop hook (which requires updating these files). Uses `cwd` from JSON input for the file path (safer than relying on `CLAUDE_PROJECT_DIR` env var propagation). Uses `grep -qxF` for exact whole-line matching (prevents `CLAUDE.md` from matching `MY_CLAUDE.md`). Requires `jq` (validated in Step 9).
 
 #### PostToolUseFailure Hook (LEARNINGS.md nudge — prompt type)
 
@@ -684,6 +692,9 @@ Add/merge these hooks:
 After writing all hooks and scripts, validate the setup:
 
 ```bash
+# Verify jq is installed (required by hook scripts for parsing JSON input)
+command -v jq >/dev/null 2>&1 || echo "ERROR: jq is required for hook scripts but not found (install: brew install jq / apt install jq)"
+
 # Validate JSON syntax
 jq . .claude/settings.local.json > /dev/null 2>&1 || echo "ERROR: Invalid JSON in settings"
 
