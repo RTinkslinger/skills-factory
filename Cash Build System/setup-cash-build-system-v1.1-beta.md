@@ -4,7 +4,7 @@ description: Set up the CASH Build System (Context-Aware Session Handling) — b
 
 # Setup CASH Build System
 
-**Version: 1.0-beta** | [Version History](../documents/cash-build-system-version-history.md)
+**Version: 1.1-beta** | [Version History](../documents/cash-build-system-version-history.md)
 
 Set up the CASH Build System for this project. This is a project-agnostic build system that provides: a branch lifecycle protocol, a Notion Build Roadmap for PDLC tracking, a learning loop that captures and graduates error patterns, a subagent delegation protocol, and enforcement hooks.
 
@@ -131,6 +131,48 @@ Create a Board view grouped by Status. Save the view URL for CLAUDE.md configura
 
 **Handle the case where Notion MCP isn't connected:** If Notion tools are unavailable, skip Roadmap gracefully and inform the user.
 
+### Step 5b: Create ROADMAP.md
+
+Create `ROADMAP.md` in the project root. This is the local working copy of the Build Roadmap — it stays in sync with Notion via a checkout/commit model.
+
+**If Notion was connected in Step 5:** Query the database and populate `ROADMAP.md` with current items:
+
+```markdown
+# Build Roadmap
+
+Last synced: [ISO timestamp] | Sprint: [N]
+
+## In Progress
+- [Item description] [Priority, Branch] <!-- notion:page-id -->
+
+## Up Next
+- [Item description] [Priority] <!-- notion:page-id -->
+
+## Verifying
+- [Item description] [Sprint N] <!-- notion:page-id -->
+
+## Insights
+- [Item description] <!-- notion:page-id -->
+```
+
+**If Notion was skipped:** Create an empty template:
+
+```markdown
+# Build Roadmap
+
+Last synced: never (Notion not connected) | Sprint: 1
+
+## In Progress
+
+## Up Next
+
+## Verifying
+
+## Insights
+```
+
+**Add `ROADMAP.md` to `.gitignore`** — it's ephemeral working state with Notion page IDs. If `.gitignore` doesn't exist, create it. If it exists, append `ROADMAP.md` if not already present.
+
 ### Step 6: Append Build System Protocol to CLAUDE.md
 
 Read the existing `CLAUDE.md` file. If a `## Build System Protocol` section already exists, replace it. If a `## Build Traces Protocol (MANDATORY)` section exists (from old setup-traces), replace it with the new section. Otherwise, append this section at the end:
@@ -223,7 +265,7 @@ Only read `traces/archive/` if:
 
 **Scope:** Applies to project source code changes — files that implement features, fix bugs,
 or modify application behavior. Does NOT apply to:
-- Build system setup (TRACES.md, LEARNINGS.md, CLAUDE.md, hooks, settings.json)
+- Build system infrastructure (TRACES.md, LEARNINGS.md, ROADMAP.md, CLAUDE.md build system section, hooks, settings.json) — this is exempt from both branch lifecycle AND Roadmap item requirements
 - Documentation-only changes (README, docs/, .md files not in src/)
 - Global config files outside the project (~/.claude/*, ~/.mcp.json)
 
@@ -245,24 +287,43 @@ Every code change follows: CREATE > WORK > REVIEW > SHIP
 - **Notion DB Data Source ID:** [configured by /setup-cash-build-system]
 - **Default View URL:** [configured by /setup-cash-build-system]
 
-**Real-time updates (not batch-at-end):**
-- Start working on item > update to In Progress immediately
-- Ship (merge to main) > update to Verifying immediately
-- Discover insight mid-session > create Insight item immediately
+#### Checkout/Commit Model
+
+`ROADMAP.md` is the local working copy. Notion is the remote. Sync is always one-direction-at-a-time.
+
+| Phase | Direction | What happens |
+|-------|-----------|-------------|
+| **Session start** | Notion → local | Query Notion DB, rebuild `ROADMAP.md` with fresh state |
+| **During session** | Local only | Read/update `ROADMAP.md` directly — it's your working state |
+| **State transition** | Local + Notion | Update `ROADMAP.md` AND call `notion-update-page` in the same action |
+| **Notion offline** | Local only | Update `ROADMAP.md`, add `<!-- sync pending -->` note. Next session with Notion catches up |
+
+**Session start sync (rebuild ROADMAP.md):**
+```
+1. Query Notion: notion-query-database-view with view_url: "[configured view URL]"
+2. Parse results into ROADMAP.md format (grouped by Status)
+3. Write ROADMAP.md with "Last synced" timestamp and Sprint number
+4. If Notion unavailable: read existing ROADMAP.md as-is (stale but usable)
+```
+
+**ROADMAP.md is ephemeral** — do NOT commit it to git. Add to `.gitignore`.
+Between sessions, Notion is source of truth (user can reprioritize, add items).
+During a session, `ROADMAP.md` is working state (Claude owns it).
+
+#### Real-time updates (not batch-at-end)
+
+- Start working on item → update `ROADMAP.md` to In Progress + call `notion-update-page`
+- Ship (merge to main) → update `ROADMAP.md` to Verifying + call `notion-update-page`
+- Discover insight → add to `ROADMAP.md` Insights section + call `notion-create-pages`
 - Every code change must have a Roadmap item. If none exists, create one before starting.
-  - Exception: Build system infrastructure setup (creating TRACES.md, LEARNINGS.md,
+  - Exception: Build system infrastructure setup (creating TRACES.md, LEARNINGS.md, ROADMAP.md,
     configuring hooks) does not require a Roadmap item — it IS the system that creates Roadmap items.
 
 **Auto-filled fields:** Priority, Technical Notes (medium depth — implementation approach,
 key dependencies, why it matters), Parallel Safety (via 3-tier heuristic), Sprint#,
 Source, Task Breakdown (populated when item moves to In Progress).
 
-**Reading the Roadmap:**
-```
-notion-query-database-view with view_url: "[configured view URL]"
-```
-
-**Creating items:**
+**Creating items (Notion):**
 ```
 notion-create-pages with parent: { data_source_id: "[configured DB ID]" }
 properties: {
@@ -276,6 +337,7 @@ properties: {
   "Parallel Safety": "[auto-classified]"
 }
 ```
+Then immediately add the new item to `ROADMAP.md` with its Notion page ID in a comment.
 
 ### Sprint System
 
@@ -344,26 +406,34 @@ Create the `.claude/hooks/` directory and write the command-type hook scripts.
 #!/bin/bash
 # Check if a file being edited is classified as Sequential.
 # Outputs JSON with additionalContext so Claude actually sees the warning.
-# Never blocks (no exit 2). Uses agent_type field (not agent_name — that doesn't exist).
+# Never blocks (always exit 0). Only fires for subagents (uses agent_id field).
+# TRACES.md, LEARNINGS.md, ROADMAP.md are always exempt — they must never be blocked
+# because the Stop hook requires updating them.
 
 INPUT=$(cat)
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.filePath // empty')
-AGENT_TYPE=$(echo "$INPUT" | jq -r '.agent_type // empty')
+AGENT_ID=$(echo "$INPUT" | jq -r '.agent_id // empty')
 CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
 
 # Only relevant for subagents — main session can edit anything
-if [ -z "$AGENT_TYPE" ]; then
+# agent_id is only present when hook fires inside a subagent
+if [ -z "$AGENT_ID" ]; then
   exit 0
 fi
 
-# Check sequential files list using cwd from JSON (safer than CLAUDE_PROJECT_DIR env var)
+# Build system files are always exempt (Stop hook requires updating these)
+BASENAME=$(basename "$FILE_PATH" 2>/dev/null)
+case "$BASENAME" in
+  TRACES.md|LEARNINGS.md|ROADMAP.md) exit 0 ;;
+esac
+
+# Check sequential files list using cwd from JSON
 SEQ_FILE="$CWD/.claude/sequential-files.txt"
 if [ ! -f "$SEQ_FILE" ]; then
   exit 0  # No list = no restriction
 fi
 
 # Match against the list (exact whole-line match on basename to avoid false positives)
-BASENAME=$(basename "$FILE_PATH" 2>/dev/null)
 if [ -n "$BASENAME" ] && grep -qxF "$BASENAME" "$SEQ_FILE" 2>/dev/null; then
   # Use JSON additionalContext so Claude actually sees the warning (plain stderr is verbose-only)
   cat <<EOF
@@ -408,27 +478,43 @@ cd "$CWD" 2>/dev/null || exit 0
 
 # Check if any code files were modified (staged, unstaged, or untracked)
 # Uses git status --porcelain which works even on repos with no commits
-# Exclude TRACES.md, LEARNINGS.md, CLAUDE.md, .claude/, and other non-code files
-CODE_CHANGES=$(git status --porcelain 2>/dev/null | grep -vE '(TRACES\.md|LEARNINGS\.md|CLAUDE\.md|\.claude/|\.md |\.txt )' | grep -vE '^\?\?' | head -1)
+# Exclude TRACES.md, LEARNINGS.md, ROADMAP.md, CLAUDE.md, .claude/, and all .md/.txt files
+CODE_CHANGES=$(git status --porcelain 2>/dev/null | grep -vE '(TRACES\.md|LEARNINGS\.md|ROADMAP\.md|CLAUDE\.md|\.claude/)' | grep -vE '\.(md|txt)$' | grep -vE '^\?\?' | head -1)
 
 # If no code files changed, no reminder needed
 if [ -z "$CODE_CHANGES" ]; then
   exit 0
 fi
 
-# Check if TRACES.md was updated in this session (modified time within last hour)
+# Check if TRACES.md or ROADMAP.md was updated in this session (modified time within last hour)
+# If either was recently updated, assume Claude is tracking the session properly
+NOW=$(date +%s)
+
 if [ -f "TRACES.md" ]; then
   TRACES_MOD=$(stat -f %m "TRACES.md" 2>/dev/null || stat -c %Y "TRACES.md" 2>/dev/null || echo 0)
-  NOW=$(date +%s)
   DIFF=$((NOW - ${TRACES_MOD:-0}))
   if [ "$DIFF" -lt 3600 ]; then
     exit 0  # TRACES.md was recently updated, no reminder needed
   fi
 fi
 
+# Build reminder listing what needs updating
+REMIND=""
+REMIND="${REMIND}(1) Add an iteration entry to TRACES.md. "
+
+if [ -f "ROADMAP.md" ]; then
+  ROADMAP_MOD=$(stat -f %m "ROADMAP.md" 2>/dev/null || stat -c %Y "ROADMAP.md" 2>/dev/null || echo 0)
+  DIFF=$((NOW - ${ROADMAP_MOD:-0}))
+  if [ "$DIFF" -ge 3600 ]; then
+    REMIND="${REMIND}(2) Update ROADMAP.md with current status. "
+  fi
+fi
+
+REMIND="${REMIND}(3) Log any trial-and-error patterns to LEARNINGS.md."
+
 # Code was modified but TRACES.md wasn't updated — exit 2 so Claude continues
 # stderr is fed to Claude as context (per hooks reference: Stop exit 2 = continue with stderr)
-echo "Session check: Code files were modified but TRACES.md was not updated. Before stopping: (1) Add an iteration entry to TRACES.md, (2) Log any trial-and-error patterns to LEARNINGS.md, (3) Update Build Roadmap status." >&2
+echo "Session check: Code files were modified but TRACES.md was not updated. Before stopping: ${REMIND}" >&2
 
 exit 2
 ```
@@ -490,7 +576,7 @@ Add/merge these hooks:
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'REQUIRED before responding to the user: (1) Read TRACES.md to find current sprint number and last iteration. (2) Check Build Roadmap for items with Status=Verifying — ask user for pass/fail. (3) Scan LEARNINGS.md for the 3 most recent patterns to avoid repeating mistakes.'"
+            "command": "echo 'REQUIRED before responding to the user: (1) Read TRACES.md to find current sprint number and last iteration. (2) Rebuild ROADMAP.md from Notion if connected (query DB, overwrite local file), or read existing ROADMAP.md. Check for items with Status=Verifying — ask user for pass/fail. (3) Scan LEARNINGS.md for the 3 most recent patterns to avoid repeating mistakes.'"
           }
         ]
       }
@@ -565,7 +651,7 @@ Add/merge these hooks:
 }
 ```
 
-**Why command type:** Checking a filename against a text file list is deterministic — no LLM needed. The script reads `.claude/sequential-files.txt` (not CLAUDE.md — no circular dependency). Always exits 0 (never blocks). Uses JSON `additionalContext` field so Claude actually sees the warning (plain stderr is verbose-mode-only and invisible to Claude). Uses `agent_type` field (not `agent_name` — that doesn't exist in the API). Uses `cwd` from JSON input for the file path (safer than relying on `CLAUDE_PROJECT_DIR` env var propagation). Uses `grep -qxF` for exact whole-line matching (prevents `CLAUDE.md` from matching `MY_CLAUDE.md`).
+**Why command type:** Checking a filename against a text file list is deterministic — no LLM needed. The script reads `.claude/sequential-files.txt` (not CLAUDE.md — no circular dependency). Always exits 0 (never blocks). Uses JSON `additionalContext` field so Claude actually sees the warning (plain stderr is verbose-mode-only and invisible to Claude). Uses `agent_id` field to detect subagents (only present when hook fires inside a subagent — main session has no `agent_id`). Exempts TRACES.md, LEARNINGS.md, and ROADMAP.md to prevent conflict with the Stop hook (which requires updating these files). Uses `cwd` from JSON input for the file path (safer than relying on `CLAUDE_PROJECT_DIR` env var propagation). Uses `grep -qxF` for exact whole-line matching (prevents `CLAUDE.md` from matching `MY_CLAUDE.md`).
 
 #### PostToolUseFailure Hook (LEARNINGS.md nudge — prompt type)
 
@@ -619,7 +705,7 @@ If it exists, append or update this section:
 
 ```markdown
 ## CASH Build System (MANDATORY)
-If code files are modified during a session, **update `TRACES.md`** with an iteration entry before closing. Log trial-and-error patterns to `LEARNINGS.md` immediately when discovered. Keep Build Roadmap items current. This is enforced by hooks. Read `TRACES.md` at the start of coding sessions to know the current iteration and sprint number.
+If code files are modified during a session, **update `TRACES.md`** with an iteration entry before closing. Update `ROADMAP.md` with current item status. Log trial-and-error patterns to `LEARNINGS.md` immediately when discovered. At session start, rebuild `ROADMAP.md` from Notion if connected. This is enforced by hooks. Read `TRACES.md` at the start of coding sessions to know the current iteration and sprint number.
 ```
 
 If MEMORY.md doesn't exist yet, create it with just this section.
@@ -649,7 +735,9 @@ Tell the user what was created/configured:
 - `TRACES.md` — Rolling window trace file [created / already existed]
 - `traces/archive/.gitkeep` — Archive directory for milestones [created / already existed]
 - `LEARNINGS.md` — Learning loop file [created / already existed]
-- Updated `CLAUDE.md` with Build System Protocol (lifecycle, roadmap, sprint, subagent, file classification, learnings)
+- `ROADMAP.md` — Local Build Roadmap working copy [created from Notion / created empty template]
+- `.gitignore` — Updated to exclude ROADMAP.md
+- Updated `CLAUDE.md` with Build System Protocol (lifecycle, roadmap checkout/commit model, sprint, subagent, file classification, learnings)
 - **Build Roadmap** — Notion DB [connected / skipped]
 - **Hook scripts created:**
   - `.claude/hooks/stop-check.sh` — Conditional Stop reminder (command type, loop-safe)
@@ -674,7 +762,7 @@ Report:
 Remind them:
 - The system uses O(1) context: TRACES.md stays ~80 lines forever
 - LEARNINGS.md captures trial-and-error patterns and graduates them to CLAUDE.md
-- Build Roadmap provides real-time PDLC tracking
+- Build Roadmap uses a checkout/commit model: ROADMAP.md is the local working copy, Notion is the remote. Syncs at session start, updates both during state transitions
 - Subagent protocol enforces safe parallel work
 - Six hooks enforce the system: 4 command (deterministic, no context cost) + 2 prompt (judgment-based)
 - Stop hook is loop-safe (`stop_hook_active` guard) and uses exit 2 to force TRACES.md updates (Claude continues with stderr as context, not exit 0 which is invisible)

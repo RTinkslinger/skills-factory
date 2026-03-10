@@ -9,6 +9,41 @@
 
 ---
 
+## 1.1-beta (2026-03-10)
+
+**7 fixes + 1 new feature** addressing all issues found in the 41-minute production audit and recovered session analysis.
+
+### New Feature: ROADMAP.md Checkout/Commit Model
+
+Local `ROADMAP.md` mirrors the Notion Build Roadmap using a checkout/commit pattern:
+- Session start → sync down from Notion (overwrite local)
+- During session → work from local file
+- State transitions → update local + Notion simultaneously
+- Notion offline → local file works, marks "sync pending"
+
+New setup step (5b) creates the file and adds it to `.gitignore`. Stop hook now checks `ROADMAP.md` modification time alongside TRACES.md. SessionStart directive includes ROADMAP.md rebuild.
+
+**Why:** TRACES.md works because it's local (visible, enforceable). Build Roadmap failed because it was Notion-only (behind MCP, invisible to hooks, easily forgotten).
+
+### Bug Fixes
+
+| Fix | Was | Now | Why |
+|-----|-----|-----|-----|
+| `stop-check.sh` file exclusion | `\.md ` / `\.txt ` (trailing space) | `\.(md\|txt)$` (end-of-line anchor) | `git status --porcelain` puts filenames at end of line — trailing space never matched, so .md files falsely counted as "code changes" |
+| `check-sequential-files.sh` subagent detection | `agent_type` (unreliable) | `agent_id` (only present inside subagents) | `agent_type` is only present with `--agent` flag or inside subagents; `agent_id` is the reliable indicator |
+| Build system file exemptions | None | TRACES.md, LEARNINGS.md, ROADMAP.md exempt from sequential check | Prevented hook conflict loop: Stop hook demands TRACES.md update → PreToolUse blocks it → retry triggers Stop again |
+| `stop-check.sh` ROADMAP.md awareness | Only checks TRACES.md | Checks both TRACES.md and ROADMAP.md | Reminder now includes ROADMAP.md status if it hasn't been updated |
+| Protocol scope clarification | "Build system setup" in scope exemption | Explicit: "exempt from both branch lifecycle AND Roadmap item requirements" | Audit showed ambiguity about whether infrastructure setup needs a Roadmap item first |
+| SessionStart directive | No mention of ROADMAP.md | Includes "Rebuild ROADMAP.md from Notion if connected" | Ensures ROADMAP.md is synced at session start |
+
+### Sources
+- Production audit: `Frontend Skills & MCPs/logs/CASH-BUILD-SYSTEM-AUDIT.md` (41-minute session, 27% edit denial rate)
+- Recovered analysis: `Documents/recovered-session-artifacts/cash-build-system-notion-roadmap-fix-plan.md`
+- Recovered notes: `Documents/recovered-session-artifacts/skills-factory-publish-setup.md`
+- Hook input schema: verified against official Claude Code hooks documentation
+
+---
+
 ## 1.0-beta (2025-03-06)
 
 **14 targeted fixes** after deep research validated v2-alpha against official Claude Code Hooks API docs, GitHub issues, and community reports.

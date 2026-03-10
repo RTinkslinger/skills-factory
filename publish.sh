@@ -12,7 +12,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # source_path is relative to Skills Factory root
 # target_subdirectory is relative to ~/.claude/
 MANIFEST=(
-  "Cash Build System/setup-cash-build-system-v1.0-beta.md:commands:setup-cash-build-system.md"
+  "Cash Build System/setup-cash-build-system-v1.1-beta.md:commands:setup-cash-build-system.md"
   "Cash Build System/cash-build-system-version-history.md:documents:cash-build-system-version-history.md"
 )
 
