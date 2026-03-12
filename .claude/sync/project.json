@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "name": "skills-factory",
+  "display_name": "Skills Factory",
+  "category": "tools",
+  "description": "Skill development workspace — SKILL-CRAFT methodology, per-skill development logs, expertise transfer system",
+  "repo_url": "https://github.com/RTinkslinger/skills-factory",
+  "cai_project": null,
+  "notion_page_id": null,
+  "zone": "build",
+  "sub_repos": [],
+  "created_at": "2026-02-01",
+  "sync_enabled": true,
+  "tags": ["skills", "skill-craft", "methodology", "plugins"]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "name": "skills-factory",
+    "category": "tools",
+    "description": "Skill development workspace — SKILL-CRAFT methodology, per-skill development logs, expertise transfer system",
+    "repo_url": "https://github.com/RTinkslinger/skills-factory",
+    "sub_repos": []
+  },
+  "state": {
+    "status": "active",
+    "last_session": {
+      "timestamp": "2026-03-12T15:30:00Z",
+      "summary": "Sync initialized by CC↔CAI sync system.",
+      "key_commit": "32403ac"
+    },
+    "current_tasks": [],
+    "recent_decisions": [],
+    "blocked_on": [],
+    "next_session_priorities": [],
+    "key_files_changed_last_session": []
+  },
+  "architecture": {
+    "summary": "Skill development workspace using SKILL-CRAFT methodology. Cash Build System v1.1-beta deployed with 6 hooks. ROADMAP.md checkout/commit model active.",
+    "stack": ["Markdown"],
+    "key_patterns": [
+      "SKILL-CRAFT methodology",
+      "Per-skill development logs",
+      "Expertise transfer system",
+      "Cash Build System v1.1-beta (6 hooks)",
+      "ROADMAP.md checkout/commit model"
+    ]
+  },
+  "updated_at": "2026-03-12T15:30:00Z",
+  "updated_by": "cc"
+}
