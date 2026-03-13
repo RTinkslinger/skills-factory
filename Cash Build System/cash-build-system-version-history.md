@@ -9,6 +9,40 @@
 
 ---
 
+## 1.2-beta (2026-03-12)
+
+**4 bug fixes + cross-sync alignment** from deferred v1.2 iteration plan items and cross-sync v0.2 audit integration.
+
+### Bug Fixes
+
+| Fix | Was | Now | Why |
+|-----|-----|-----|-----|
+| Stop hook 1-hour blind spot | `$NOW - TRACES_MOD < 3600` (fixed window) | Compare TRACES.md mtime vs newest code file mtime | Code modified 30min after TRACES.md update was missed — the 1-hour window said "recently updated" even though new code changes weren't covered |
+| Compact hook `sed` fragility | `sed '/^---$/q'` (matches any `---`) | `sed '/<!-- end-header -->/q'` with sentinel comment in TRACES.md template | A user-added `---` inside Project Summary would truncate the compact hook output, losing the Milestone Index |
+| PostToolUseFailure prompt timing | Past tense: "If you tried...and then succeeded" | Future tense: "When you find a working approach after this failure" | Hook fires at moment of failure, not after success — past tense was nonsensical at the point of evaluation |
+| `| head -1` in stop-check.sh | `CODE_CHANGES` truncated to 1 line | Full list preserved for mtime iteration | The mtime comparison needs to stat multiple files; `head -1` prevented this |
+
+### Cross-Sync Integration Alignment
+
+Aligned the CBS skill with cross-sync v0.2 audit fixes (deployed to all 4 projects in a prior session):
+
+- **Step 7e:** Added `sync-write.sh` creation (references `/sync-init` Step 4d alongside existing 4b/4c)
+- **Step 9:** Added `sync-write.sh` executable check to validation block
+- **Step 13:** Added `sync-write.sh` to completion report and hook scripts summary
+- **Source/deployed convergence:** Source file in Cash Build System repo now matches deployed `~/.claude/commands/setup-cash-build-system.md` (previously diverged — deployed had sync integration, source didn't)
+
+### Other Changes
+
+- **Prerequisites section** added before Step 1: documents git+remote and jq as requirements
+- **TRACES.md template:** `---` separator replaced with `<!-- end-header -->` sentinel comment
+- **Stop hook Why section:** Documents the mtime comparison approach
+
+### Accuracy Note
+
+v1.1 plan incorrectly stated `agent_type` doesn't exist in hook input — it does per official docs. `agent_id` was chosen as the more reliable subagent indicator because it's only present inside subagents, whereas `agent_type` requires the `--agent` flag or subagent context.
+
+---
+
 ## 1.1-beta (2026-03-10)
 
 **7 fixes + 1 new feature** addressing all issues found in the 41-minute production audit and recovered session analysis.
