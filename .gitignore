@@ -1,6 +1,8 @@
 .DS_Store
+# Claude Code — ignore local config, track shared infrastructure (sync + hooks)
 .claude/*
 !.claude/sync/
+!.claude/hooks/
 .claude/sync/.last-push
 *.swp
 *.swo
