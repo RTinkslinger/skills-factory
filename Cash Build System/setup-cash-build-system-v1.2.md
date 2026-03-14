@@ -4,7 +4,7 @@ description: Set up the CASH Build System (Context-Aware Session Handling) — b
 
 # Setup CASH Build System
 
-**Version: 1.2-beta** | [Version History](../documents/cash-build-system-version-history.md)
+**Version: 1.2** | [Version History](../documents/cash-build-system-version-history.md)
 
 Set up the CASH Build System for this project. This is a project-agnostic build system that provides: a branch lifecycle protocol, a Notion Build Roadmap for PDLC tracking, a learning loop that captures and graduates error patterns, a subagent delegation protocol, and enforcement hooks.
 
@@ -483,6 +483,31 @@ Task safety = worst classification of any file it touches. Default = Coordinate 
   4. Clear graduated entries from LEARNINGS.md
 ```
 
+**If SYNC_ENABLED**, also append the Cross-Sync Session Protocol section to the CLAUDE.md template above (inside the same Build System Protocol section):
+
+```markdown
+
+### Cross-Sync Session Protocol (MANDATORY)
+
+Before ending any session on a synced project, update `.claude/sync/state.json`:
+
+1. **Semantic fields** (via Edit tool):
+   - `state.last_session.summary` — 1-2 sentences of what was accomplished
+   - `state.current_tasks` — array of active work items
+   - `state.recent_decisions` — array of `{decision, rationale, date}` objects
+   - `state.next_session_priorities` — array of next steps
+
+2. **Pending inbox** (via Edit tool): For substantive decisions or messages, add items to `state.pending_inbox[]`:
+   ```json
+   {"type": "decision|task|note|flag|research", "content": "message text"}
+   ```
+   Optional: `"context": {}`, `"priority": "normal|urgent|low"`. sync-push.sh generates full inbox messages automatically.
+
+3. **Cross-project relevance**: If this session's work affects other synced projects, read `~/.claude/sync-registry.json` for project paths and write messages to target inboxes via sync-write.sh.
+```
+
+**Why CLAUDE.md instead of a prompt hook:** Prompt hooks run on Haiku (a separate, fast model with no file access). They are evaluation gates that return `{"ok": true/false}`, not action executors. Sync instructions require the main Claude to edit files, so they must be in CLAUDE.md where main Claude sees them. sync-push.sh (command hook) handles the mechanical push.
+
 ### Step 7: Create hook helper scripts
 
 Create the `.claude/hooks/` directory and write the command-type hook scripts.
@@ -542,89 +567,29 @@ exit 0
 
 #### 7b: Create `.claude/hooks/stop-check.sh`
 
-```bash
-#!/bin/bash
-# Conditional Stop hook — only reminds about TRACES/LEARNINGS/Roadmap
-# when code files were modified but traces weren't updated.
-# Uses exit 2 + stderr to inject reminder into Claude's context.
-# Exit 0 = Claude stops normally. Exit 2 = Claude continues with stderr as context.
+Use the exact content from the reference implementation at `cc-cai-sync/hooks/stop-check.sh`. The script:
+- Reads `.claude/traces-exempt.txt` for project-specific exemptions (configurable)
+- Hardcoded exemptions: TRACES.md, LEARNINGS.md, ROADMAP.md (enforced targets), .claude/sync/ (auto-modified by hooks), untracked files
+- All other file changes (including CLAUDE.md, .claude/hooks/, .md skill files) trigger TRACES enforcement
+- Uses mod-time comparison: checks if TRACES.md is newer than the newest changed file
+- Exit 2 + stderr when TRACES needs updating (Claude continues with instructions)
+- `stop_hook_active` guard prevents infinite loops
 
-# jq is required for parsing hook input JSON
-command -v jq >/dev/null 2>&1 || exit 0
+**Why CLAUDE.md and .md files are tracked:** CLAUDE.md edits often contain architectural decisions (adding protocols, updating system config). Skill .md files are the product in Skills Factory. The old blanket `.md` exemption hid meaningful work from TRACES.
 
-INPUT=$(cat)
+#### 7b-ii: Create `.claude/traces-exempt.txt`
 
-# Break infinite loop: if Stop hook is already active, let Claude stop
-STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active // false')
-if [ "$STOP_ACTIVE" = "true" ]; then
-  exit 0
-fi
-
-CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
-if [ -z "$CWD" ]; then
-  exit 0
-fi
-
-cd "$CWD" 2>/dev/null || exit 0
-
-# Check if any tracked code files were modified (staged or unstaged)
-# Uses git status --porcelain which works even on repos with no commits
-# Exclude TRACES.md, LEARNINGS.md, ROADMAP.md, CLAUDE.md, .claude/, all .md/.txt files, and untracked files
-CODE_CHANGES=$(git status --porcelain 2>/dev/null | grep -vE '(TRACES\.md|LEARNINGS\.md|ROADMAP\.md|CLAUDE\.md|\.claude/)' | grep -vE '\.(md|txt)$' | grep -vE '^\?\?')
-
-# If no code files changed, no reminder needed
-if [ -z "$CODE_CHANGES" ]; then
-  exit 0
-fi
-
-# Check if TRACES.md was updated AFTER the newest code change
-# Compares file modification times instead of using a fixed 1-hour window,
-# so code changes made after a TRACES.md update are always caught
-if [ -f "TRACES.md" ]; then
-  TRACES_MOD=$(stat -f %m "TRACES.md" 2>/dev/null || stat -c %Y "TRACES.md" 2>/dev/null || echo 0)
-  NEWEST_CODE_MOD=0
-  COUNT=0
-  while IFS= read -r entry; do
-    [ -z "$entry" ] && continue
-    FILE="${entry:3}"
-    [ -f "$FILE" ] || continue
-    MOD=$(stat -f %m "$FILE" 2>/dev/null || stat -c %Y "$FILE" 2>/dev/null || echo 0)
-    [ "${MOD:-0}" -gt "$NEWEST_CODE_MOD" ] && NEWEST_CODE_MOD="${MOD:-0}"
-    COUNT=$((COUNT + 1))
-    [ "$COUNT" -ge 5 ] && break
-  done <<< "$CODE_CHANGES"
-
-  # If TRACES.md is newer than all checked code changes, no reminder needed
-  if [ "${TRACES_MOD:-0}" -ge "$NEWEST_CODE_MOD" ] && [ "$NEWEST_CODE_MOD" -gt 0 ]; then
-    exit 0
-  fi
-fi
-
-# Build reminder listing what needs updating
-REMIND=""
-if [ -f "TRACES.md" ]; then
-  REMIND="${REMIND}(1) Add an iteration entry to TRACES.md. "
-else
-  REMIND="${REMIND}(1) Create TRACES.md and add an iteration entry (run /setup-cash-build-system if not yet set up). "
-fi
-
-NOW=$(date +%s)
-if [ -f "ROADMAP.md" ]; then
-  ROADMAP_MOD=$(stat -f %m "ROADMAP.md" 2>/dev/null || stat -c %Y "ROADMAP.md" 2>/dev/null || echo 0)
-  DIFF=$((NOW - ${ROADMAP_MOD:-0}))
-  if [ "$DIFF" -ge 3600 ]; then
-    REMIND="${REMIND}(2) Update ROADMAP.md with current status. "
-  fi
-fi
-
-REMIND="${REMIND}(3) Log any trial-and-error patterns to LEARNINGS.md."
-
-# Code was modified but TRACES.md wasn't updated — exit 2 so Claude continues
-# stderr is fed to Claude as context (per hooks reference: Stop exit 2 = continue with stderr)
-echo "Session check: Code files were modified but TRACES.md was not updated. Before stopping: ${REMIND}" >&2
-
-exit 2
 ```
+# Files exempt from TRACES.md enforcement.
+# These are files that stop-check.sh tells you to update,
+# so they can't also trigger the "update TRACES" reminder.
+# Add project-specific exemptions below (one filename per line).
+TRACES.md
+LEARNINGS.md
+ROADMAP.md
+```
+
+Projects can add filenames to exempt them (e.g., `README.md` if doc-only edits are noisy).
 
 #### 7c: Create `.claude/sequential-files.txt`
 
@@ -800,23 +765,11 @@ Add/merge these hooks:
 
 #### If SYNC_ENABLED: Add sync hooks to the merged configuration
 
-**Stop group ordering is critical: stop-check.sh first, prompts middle, sync-push.sh LAST.** The push must fire after all prompt hooks so semantic state.json updates are included in the git push.
+**Stop group ordering: stop-check.sh first, sync-push.sh LAST.** No prompt-type Stop hooks — prompt hooks run on Haiku (separate model, no file access), so sync instructions live in CLAUDE.md (added in Step 6).
 
 Keep `stop-check.sh` in its own Stop group (Group 1 — already created above).
 
-Add a **separate** Stop group for the prompt-type sync hook (Group 2, after CBS prompt if present):
-```json
-{
-  "hooks": [
-    {
-      "type": "prompt",
-      "prompt": "Cross-Sync — before session ends:\n\n1. SAME-PROJECT: Update .claude/sync/state.json semantic fields — state.last_session.summary (1-2 sentences), state.current_tasks, state.recent_decisions, state.next_session_priorities. For substantive decisions, append a decision message to .claude/sync/inbox.jsonl using .claude/hooks/sync-write.sh for validation (echo '{...}' | \"$CLAUDE_PROJECT_DIR/.claude/hooks/sync-write.sh\" .claude/sync/inbox.jsonl).\n\n2. CROSS-PROJECT: Consider whether this session's work affects other synced projects. If yes, read ~/.claude/sync-registry.json for project paths. Write a message to the target project's inbox using their sync-write.sh: echo '{...}' | \"{target-path}/.claude/hooks/sync-write.sh\" \"{target-path}/.claude/sync/inbox.jsonl\". Set source to cc:{this-project-name}. For urgent messages, also git add/commit/push in the target repo."
-    }
-  ]
-}
-```
-
-Add `sync-push.sh` as the **LAST** Stop group (Group 3 or 4 depending on CBS prompt):
+Add `sync-push.sh` as the **LAST** Stop group (Group 2):
 ```json
 {
   "hooks": [
@@ -836,7 +789,7 @@ Add `sync-pull.sh` to the SessionStart startup group alongside the existing echo
 }
 ```
 
-**Total hooks with sync enabled: 9** (6 CBS + 3 sync). The 3 sync hooks are: sync-pull.sh (command, SessionStart), sync-push.sh (command, Stop LAST), and the sync prompt (prompt, Stop).
+**Total hooks with sync enabled: 8** (6 CBS + 2 sync). The 2 sync hooks are: sync-pull.sh (command, SessionStart) and sync-push.sh (command, Stop LAST).
 
 ### Step 9: Validate hook configuration
 
@@ -921,10 +874,9 @@ Tell the user what was created/configured:
   - `.claude/hooks/sync-pull.sh` — SessionStart: git pull + inbox check [created]
   - `.claude/hooks/sync-push.sh` — Stop: state.json update + inbox append + git push [created]
   - `.claude/hooks/sync-write.sh` — Validated inbox write helper (used by prompts) [created]
-- **Hooks configured ([6 or 9] active):**
+- **Hooks configured ([6 or 8] active):**
   - Stop: Conditional check via `stop-check.sh` — exit 2 + stderr forces TRACES update (command)
-  - [If sync] Stop: Mechanical sync push via `sync-push.sh` (command)
-  - [If sync] Stop: Semantic state.json update + decision logging (prompt)
+  - [If sync] Stop: Mechanical sync push via `sync-push.sh` — drains pending_inbox, git push (command)
   - SessionStart (startup): REQUIRED directive — read TRACES, check Roadmap (command)
   - [If sync] SessionStart (startup): Sync pull + inbox check via `sync-pull.sh` (command)
   - SessionStart (compact): Re-inject TRACES.md header after compaction (command)
@@ -932,11 +884,12 @@ Tell the user what was created/configured:
   - PreToolUse (Edit/Write): Sequential file warning via `check-sequential-files.sh` (command)
   - PostToolUseFailure (Bash|Edit|Write): LEARNINGS.md capture nudge (prompt)
 - **MEMORY.md** entry — auto-loaded reminder every session
+- [If sync] **CLAUDE.md** — Cross-Sync Session Protocol section (sync instructions for main Claude)
 
 Report:
 - Current Sprint: [N]
 - Roadmap: [X] items ([Y] in progress, [Z] verifying) — or "not connected"
-- Hooks: [6 or 9] active ([4 or 6] command, [2 or 3] prompt)
+- Hooks: [6 or 8] active ([4 or 6] command, 2 prompt)
 - Hook scripts: `.claude/hooks/` ([2 or 5] scripts, all executable)
 - CC↔CAI Sync: [enabled / skipped] — run `/sync-init` later to add sync to this project
 - Validation: [pass/fail details]
@@ -946,7 +899,8 @@ Remind them:
 - LEARNINGS.md captures trial-and-error patterns and graduates them to CLAUDE.md
 - Build Roadmap uses a checkout/commit model: ROADMAP.md is the local working copy, Notion is the remote. Syncs at session start, updates both during state transitions
 - Subagent protocol enforces safe parallel work
-- [6 or 9] hooks enforce the system: [4 or 6] command (deterministic, no context cost) + [2 or 3] prompt (judgment-based)
+- [6 or 8] hooks enforce the system: [4 or 6] command (deterministic, no context cost) + 2 prompt (judgment-based evaluation gates)
 - Stop hook is loop-safe (`stop_hook_active` guard) and uses exit 2 to force TRACES.md updates (Claude continues with stderr as context, not exit 0 which is invisible)
+- **No prompt-type Stop hooks** — prompt hooks run on Haiku (no file access), so sync instructions live in CLAUDE.md. All Stop hooks are command type.
 - Edit/Write hook never blocks — uses JSON `additionalContext` so Claude sees warnings (not stderr which is verbose-mode-only), no more circular dependency failures
-- [If sync] CC↔CAI sync fires automatically: pull on session start (inbox check), push on session end (state + inbox + git push). Run `/sync-init` on other projects to enable sync there
+- [If sync] CC↔CAI sync fires automatically: pull on session start (inbox check), push on session end (pending_inbox drain + state + git push). Sync instructions in CLAUDE.md. Run `/sync-init` on other projects to enable sync there

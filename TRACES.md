@@ -12,6 +12,8 @@
 
 *Full details: `traces/archive/milestone-N.md`*
 
+<!-- end-header -->
+
 ---
 
 ## Current Work (Milestone 1 in progress)

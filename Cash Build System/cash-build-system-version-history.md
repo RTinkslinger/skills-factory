@@ -9,6 +9,59 @@
 
 ---
 
+## 1.2 (2026-03-13)
+
+**Hook architecture fix: eliminated prompt-type Stop hooks.** Prompt hooks run on Haiku (separate model, no file access) — they are evaluation gates (`{"ok": true/false}`), not action executors. Using them to instruct Claude to edit files caused "JSON validation failed" errors on every session close across all synced projects.
+
+### Breaking Changes
+
+| Change | Was | Now | Why |
+|--------|-----|-----|-----|
+| Cross-Sync Stop hook removed | Prompt-type Stop hook instructing Claude to edit state.json | No Stop hook — sync instructions in CLAUDE.md | Prompt hooks run on Haiku (no file access). Haiku can't edit files, responds with natural language, CC fails to parse as JSON |
+| Hook count with sync | 9 (6 CBS + 3 sync) | 8 (6 CBS + 2 sync) | Removed 1 prompt hook |
+| Prompt hook count with sync | 3 | 2 | Only PreToolUse (Agent) and PostToolUseFailure remain as prompt hooks — both are correct evaluation gates |
+
+### New Features
+
+| Feature | Description |
+|---------|-------------|
+| Cross-Sync Session Protocol in CLAUDE.md | When sync enabled, Step 6 appends sync instructions to CLAUDE.md. Main Claude sees these directly (not via Haiku) |
+| pending_inbox pattern | Claude adds items to `state.pending_inbox[]` via Edit. sync-push.sh drains them into full inbox messages via jq. Eliminates Claude constructing JSON in Bash |
+| sync-push.sh pending_inbox drain | New logic reads pending items, generates full inbox messages with id/timestamp/source/priority via jq, appends to inbox.jsonl, clears array |
+| sync-pull.sh/push.sh --ff-only | Changed from --rebase (fails on dirty trees) to --ff-only (degrades gracefully) |
+| Hooks Mastery skill | Deep research + actionable skill for all CC hook types, events, patterns. Deployed as global `/hooks-reference` command |
+| **Broadened TRACES enforcement** | stop-check.sh no longer blanket-exempts `.md`, `.txt`, `CLAUDE.md`, `.claude/`. Now only exempts TRACES/LEARNINGS/ROADMAP (enforced targets), `.claude/sync/` (auto-modified), and entries in `.claude/traces-exempt.txt` |
+| `.claude/traces-exempt.txt` | New configurable exempt list. Default: TRACES.md, LEARNINGS.md, ROADMAP.md. Projects can add per-project exemptions (e.g., README.md) without editing stop-check.sh |
+| `<!-- end-header -->` sentinel | TRACES.md template uses `<!-- end-header -->` sentinel instead of `---` for compact hook. Immune to user-added `---` separators |
+
+### Behavioral Changes
+
+| Change | Was | Now | Why |
+|--------|-----|-----|-----|
+| CLAUDE.md edits tracked | Exempt (blanket `.md` + explicit `CLAUDE\.md` filter) | **Tracked** — triggers TRACES requirement | CLAUDE.md edits often contain architectural decisions (adding protocols, system config). This session itself proved it. |
+| .claude/hooks/ edits tracked | Exempt (blanket `.claude/` filter) | **Tracked** — triggers TRACES requirement | Hook scripts are implementation code. Rewriting stop-check.sh is work worth tracking. |
+| .md skill files tracked | Exempt (blanket `.md` filter) | **Tracked** — triggers TRACES requirement | In Skills Factory, .md skill files ARE the product. 13 commits with 0 TRACES entries was the gap. |
+| SessionStart type enforcement | ai-cos-cc-adk used prompt-type (invalid) | All projects use command-type | SessionStart only supports `type: "command"` hooks per CC docs. Prompt type sent to Haiku which can't read files. |
+
+### Deployments
+
+- CBS v1.2 skill deployed globally (`~/.claude/commands/setup-cash-build-system.md`)
+- sync-init command updated (removed prompt hook, --ff-only, pending_inbox reference)
+- stop-check.sh deployed to all 4 projects (broadened enforcement + configurable exemptions)
+- sync-push.sh with pending_inbox drain deployed to all 4 projects
+- All prompt-type Stop hooks removed from all 4 project settings
+- `<!-- end-header -->` sentinel added to all 4 TRACES.md files
+- Compact hooks updated to use sentinel in all 4 projects
+- `.claude/traces-exempt.txt` created in all 4 projects
+- ai-cos-cc-adk: SessionStart fixed, ROADMAP.md + sequential-files.txt + check-sequential-files.sh + PostToolUseFailure hook deployed
+- Cross-Sync Session Protocol added to 3 projects' CLAUDE.md (was only in cc-cai-sync)
+
+### Key Learning
+
+**Prompt hooks are evaluation gates, not action executors.** From official CC docs: "Prompt-based hooks send the hook input and your prompt to a Claude model (Haiku by default). The LLM responds with structured JSON containing a decision." Haiku has no file access, no Edit tool, no Bash. For injecting instructions to main Claude, use CLAUDE.md (always loaded) or command hooks with exit 2 (stderr fed to Claude as feedback).
+
+---
+
 ## 1.2-beta (2026-03-12)
 
 **4 bug fixes + cross-sync alignment** from deferred v1.2 iteration plan items and cross-sync v0.2 audit integration.
