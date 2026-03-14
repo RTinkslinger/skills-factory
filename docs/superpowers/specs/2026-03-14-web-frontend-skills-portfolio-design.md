@@ -3,7 +3,8 @@
 > Make CC, CAI, and custom agents use the web as well as a human — unhindered, programmatic, best-in-class.
 
 **Date:** 2026-03-14
-**Status:** Draft
+**Status:** Draft (Pass 2 review fixes applied)
+**Review history:** Pass 1 (subagent reviewer), Pass 2 (systems architect) — see `docs/superpowers/specs/2026-03-14-design-review-pass-2.md`
 **Projects involved:** Skills Factory (primary), AI CoS CC ADK (consumer + integration), global CC config (~/.claude/)
 
 ---
@@ -67,7 +68,34 @@ LAYER 1: SHARED TOOLS
 |---|---|---|---|
 | **CC (Claude Code)** | Bash tool available, file system access, plugin system | Everything: MCPs + CLI binaries + hooks + plugins | Skills in ~/.claude/skills/ |
 | **CAI (Claude.ai)** | No Bash, no file system, MCP connectors via remote endpoints | MCPs only (via mcp.3niac.com or other remote connectors) | Skill knowledge via project instructions or MCP tool descriptions |
-| **Agent SDK** | Python/TS runtime, `anthropic` SDK, full OS access on VM | MCPs (local or remote) + CLI + direct API calls + computer use | Skill logic embedded in agent code or loaded as prompt context |
+| **Agent SDK** | Python/TS runtime, `anthropic` SDK, full OS access on VM | MCPs (local or remote) + CLI + direct API calls + computer use | Runners read reference docs from `/opt/ai-cos-mcp/skills/` at startup, include as system prompt context (see below) |
+
+**Agent SDK skill delivery (concrete mechanism):**
+
+```python
+# Runner startup pattern — loads relevant specialist knowledge into system prompt
+import pathlib
+
+SKILLS_DIR = pathlib.Path("/opt/ai-cos-mcp/skills/web-router/references")
+
+def load_specialist(name: str) -> str:
+    """Load a specialist reference doc as system prompt context."""
+    path = SKILLS_DIR / f"{name}.md"
+    if path.exists():
+        return path.read_text()
+    return ""
+
+# Example: IngestAgent loads scrape + browse + auth specialists
+system_prompt = f"""You are the IngestAgent. Your job is to extract structured data from URLs.
+
+{load_specialist("scrape")}
+{load_specialist("browse")}
+{load_specialist("auth")}
+{load_specialist("tool-selection")}
+"""
+```
+
+**Deployment:** Reference docs are synced from Skills Factory to droplet via `deploy.sh` (rsync). Same files that live in `~/.claude/skills/web-router/references/` on Mac are deployed to `/opt/ai-cos-mcp/skills/web-router/references/` on droplet. Single source of truth — two deployment targets.
 
 ### Cross-Environment Principle
 
@@ -227,7 +255,17 @@ latency_ms: 3200
 tokens_used: 450
 ```
 
-Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refinements.
+**Log storage:**
+
+| Environment | Storage | Location | Persistence |
+|---|---|---|---|
+| CC | Append-only YAML files | `~/.claude/web-logs/{specialist}-{YYYY-MM}.yml` | Persists across sessions. Monthly rotation. |
+| Agent SDK (droplet) | SQLite | `/opt/ai-cos-mcp/web-logs.db` | Table: `tool_logs(id, timestamp, specialist, task, environment, dimensions_json, tool_selected, reasoning, fallback_used, outcome, latency_ms, tokens_used)` |
+| CAI | Not logged locally | Via MCP tool if ai-cos-mcp has logging endpoint | Stored on droplet if MCP-based |
+
+**In CC:** After each web operation, the specialist appends a YAML entry to the log file. Bash tool writes the entry. This is the raw data the learning loop needs.
+
+**Learning loop:** Logs reviewed during TRACES.md compaction (every 3 iterations). Patterns confirmed 2+ times graduate to skill refinements. Universal patterns graduate to CLAUDE.md. Anti-patterns added to specialist's "Traps" section. LEARNINGS.md captures the pattern discovery; log files provide the raw evidence.
 
 ---
 
@@ -250,7 +288,28 @@ Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refin
 
 **What it does NOT do:** Execute web tasks. No browser interactions. No data extraction. Pure routing.
 
-**Activation model:** web-router is the **sole entry point** for all web tasks. Its triggers shadow all specialist triggers. Specialists are never activated directly by the skill system — they are invoked BY the router. This prevents ambiguous multi-skill activation. In CC, only web-router registers triggers; specialist skills exist as reference docs the router loads on demand. In CAI/Agent SDK, the routing logic is embedded in project instructions or agent prompts.
+**Activation model:** web-router is the **sole entry point** for all web tasks in CC. It is the ONLY SKILL.md registered in `~/.claude/skills/web-router/`. Specialist knowledge lives as **reference docs** inside `~/.claude/skills/web-router/references/`:
+
+```
+~/.claude/skills/web-router/
+  SKILL.md              ← the only file with trigger descriptions
+  references/
+    browse.md           ← navigation & interaction expertise
+    scrape.md           ← extraction expertise
+    search.md           ← search routing (evolves from search-router v2)
+    qa.md               ← testing methodology
+    auth.md             ← session management & layered auth
+    perf-audit.md       ← Core Web Vitals & performance
+    watch.md            ← monitoring & change detection
+    tool-selection.md   ← 5-dimension decision framework
+```
+
+**Why not separate skills:** CC's skill system activates ALL skills with matching triggers simultaneously. There is no trigger shadowing or skill-invokes-skill mechanism. If browse, scrape, and web-router all trigger on "go to website", Claude sees three conflicting skill instructions. Reference docs inside the router's directory eliminate this — the router loads the appropriate reference based on task classification.
+
+**Implication for source code in Skills Factory:** Each specialist is developed as its own folder (`Web & Browsers/browse/`, `Web & Browsers/scrape/`, etc.) for development tracking and SKILL-CRAFT methodology. At deployment, the specialist's content becomes a reference doc inside web-router's directory.
+
+**CAI:** Routing logic encoded in project instructions. Specialist knowledge summarized in project context.
+**Agent SDK:** Runners read reference docs from a defined path at startup and include as system prompt context (see Section 7).
 
 **Environment awareness:**
 - CC: can invoke any specialist, all tools available
@@ -311,10 +370,13 @@ Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refin
 - CAI: Firecrawl MCP via remote connector. WebFetch for simple pages.
 - Agent SDK: All tools + direct Firecrawl API for bulk operations.
 
+**Boundary principle:** Scrape handles EXTRACTION LOGIC only. When a scraping task requires navigation (clicking pagination, filling search forms, scrolling to load more, logging in), scrape ALWAYS delegates to browse. Clean separation: browse = interaction with the page, scrape = pulling data out of the page. This prevents both specialists from duplicating navigation logic and ensures the 5-dimension tool selection for navigation happens in one place (browse).
+
 **Key patterns:**
-- "Schema extraction": user provides desired fields → skill selects tool → returns typed JSON
-- "Bulk crawl": Firecrawl map (discover URLs) → batch scrape → aggregate
-- "Authenticated extraction": auth skill provides session → browse navigates → scrape extracts
+- "Schema extraction": user provides desired fields → skill selects extraction tool → returns typed JSON
+- "Bulk crawl": Firecrawl map (discover URLs) → batch scrape → aggregate (no navigation needed — Firecrawl handles it)
+- "Navigated extraction": browse navigates to target state (login, search, paginate) → scrape extracts from resulting page
+- "Authenticated extraction": auth provides session → browse navigates in that session → scrape extracts
 - "Competitive intelligence": scrape multiple competitor pages → structured comparison
 
 ---
@@ -424,7 +486,7 @@ DROPLET
 |---|---|
 | Language | Bash (simple, cron-friendly, matches existing deploy.sh pattern) |
 | Trigger | Cron on Mac (daily default, configurable) + on-demand CLI invocation |
-| Extraction method | `yt-dlp --cookies-from-browser <browser> --cookies /tmp/cookies-<domain>.txt` (proven pattern from YouTube pipeline). Open question: evaluate dedicated tools if yt-dlp proves insufficient for non-YouTube domains. |
+| Extraction method | **Phase 0 evaluation determines this.** Candidates: (1) compiled binary (gstack pattern — most reliable, handles keychain/encryption), (2) Python `browser_cookie3` library (cross-browser, maintained), (3) direct SQLite reading of Chrome/Arc/Brave cookie DBs, (4) `yt-dlp --cookies-from-browser` (current hack — limited to what yt-dlp supports). The yt-dlp method is a proven starting point from the YouTube pipeline but is NOT production-grade for arbitrary domains. The winner must handle: Safari keychain encryption, Chrome Safe Storage encryption, domain-level filtering, and Netscape format output. |
 | Output format | Netscape cookie format (`.txt`) — this is what Playwright's `storageState`, Stagehand, and browser-use all accept natively |
 | Domain filtering | Script accepts domain list as argument. Only exports cookies matching specified domains. |
 | Transport | `rsync -avz --rsh="ssh" /tmp/cookies/ root@aicos-droplet:/opt/ai-cos-mcp/cookies/` over Tailscale |
@@ -728,10 +790,14 @@ Add web browsing/scraping tools to the existing ai-cos-mcp server on the droplet
 **Option B: Separate web-tools MCP on droplet**
 New MCP server at e.g. `https://web.3niac.com/mcp`. CAI adds it as a second remote connector.
 
-**Option C: Use third-party hosted MCPs**
-Firecrawl's hosted MCP, Browserbase's MCP, etc. No droplet dependency.
+**Option C: Run web MCPs on droplet, expose via Cloudflare Tunnel**
+Run Firecrawl MCP, Playwright MCP, or browser-use MCP on the droplet alongside ai-cos-mcp. Expose as separate Cloudflare Tunnel endpoint (e.g., `https://web.3niac.com/mcp`). CAI adds it as a remote MCP connector.
 
-**Recommendation:** Start with Option C (Firecrawl hosted MCP for CAI scraping) + Option A (extend ai-cos-mcp for CAI-specific web tools). Option B if tool count grows large.
+**NOTE:** Firecrawl MCP runs via `npx firecrawl-mcp` locally — there is NO hosted MCP endpoint from Firecrawl. Any CAI access to Firecrawl requires running it on a server with remote MCP transport.
+
+**Recommendation:** Start with Option A (extend ai-cos-mcp with key web tools — scrape, search). This avoids standing up a second MCP server and leverages the existing Cloudflare Tunnel at `mcp.3niac.com`. Add simple web tools (URL extraction, search) to ai-cos-mcp first. If web tool count grows or browser operations need isolation (Chrome process alongside MCP server), move to Option C (separate web-tools MCP on droplet with its own Tunnel). Option B (separate MCP, same Tunnel) as middle ground.
+
+**Timing:** Option A begins when Phase 2 ships (scrape skill needs CAI testing). Cross-sync message to AI CoS triggers this work.
 
 ### Tasks for CAI Setup
 
@@ -751,28 +817,64 @@ Firecrawl's hosted MCP, Browserbase's MCP, etc. No droplet dependency.
 
 ## 9. Build Order & Testing Gates
 
-### Phase 1: Foundation — browse + auth + web-router
+### Phase 0: Tool Evaluation (BLOCKING — must complete before Phase 1)
 
-**Step 1.1: Tool Configuration**
+Hands-on evaluation of every tool in Layer 1. The 5-dimension framework can only be built on verified capabilities, not documentation claims.
+
+**Evaluation targets:**
+
+| Tool | What to Evaluate | Test Scenario | Pass Criteria |
+|---|---|---|---|
+| Chrome DevTools MCP | All 29 tools, latency, token usage | Navigate, fill form, run Lighthouse, inspect network on a test site | Tools work reliably, latency acceptable for interactive use |
+| Firecrawl MCP | Scrape, crawl, search, extract, agent mode | Extract structured data from 3 different site types (SaaS, blog, e-commerce) | Clean output, schema extraction works, agent mode produces usable results |
+| browser-use MCP | Reliability, token efficiency, autonomous planning | Multi-step task: search for product, compare prices, extract results | Completes task autonomously, token cost acceptable |
+| Browserbase | Isolated sessions, proxy rotation, anti-detection, persistent sessions | Access a bot-hostile site (LinkedIn), maintain session across multiple commands | Session persists, bot detection evaded, pricing viable |
+| Stagehand (existing) | Verify v3 features, auto-caching, act/extract/observe | Repeat a navigation flow 3 times, verify caching kicks in | 2nd+ runs faster, cached selectors work |
+| Cookie extraction | Extract cookies from Safari, Chrome, Arc | Export cookies for 3 domains, verify format, load into Playwright | Netscape format output, Playwright accepts cookies, authenticated page loads |
+| Playwright MCP (existing) | Verify current capabilities, token cost baseline | Same navigation flow as Stagehand test | Baseline token cost and latency documented |
+
+**Deliverable:** `Web & Browsers/phase-0-tool-evaluation.md` — results for each tool, recommendation for inclusion/exclusion in Layer 1, any surprises that affect the 5-dimension framework.
+
+**Cookie extraction evaluation (elevated from open question):** This is NOT a minor evaluation. Production cookie handling requires:
+1. Reliable extraction from multiple browsers (Safari keychain, Chrome SQLite, Arc)
+2. Domain-level filtering (not dumping all cookies)
+3. Netscape format output (compatible with Playwright, Stagehand, browser-use)
+4. Automated refresh (cron-compatible, not manual)
+5. Secure transport (encrypted, over Tailscale)
+
+Evaluate: gstack's compiled binary approach, direct SQLite reading of browser cookie DBs, Python `browser_cookie3` library, `yt-dlp --cookies-from-browser` (current hack — assess limitations), and any other dedicated tools. The winner becomes the foundation of the auth specialist's cookie sync script.
+
+**Phase 0 testing gate:** Evaluation report complete. No skill development begins until tool capabilities are verified hands-on.
+
+---
+
+### Phase 1: Foundation — auth + browse + web-router
+
+**Step 1.1: Tool Configuration (based on Phase 0 results)**
 - Install Chrome DevTools MCP globally: add to `~/.mcp.json` as `{"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest"]}}`
 - Install Firecrawl MCP globally: add to `~/.mcp.json` as `{"firecrawl": {"command": "npx", "args": ["-y", "firecrawl-mcp"], "env": {"FIRECRAWL_API_KEY": "..."}}}` (canonical config method — all MCPs go in ~/.mcp.json)
 - Verify existing Playwright MCP and Stagehand plugin work
 - Evaluate browser-use MCP server: install, test, assess value
 - Evaluate Browserbase: create account, test isolated sessions, assess pricing
 
-**Step 1.2: Build `browse` skill** (SKILL-CRAFT methodology)
+**Step 1.2: Build `auth` specialist** (SKILL-CRAFT methodology)
+- Development log in `Web & Browsers/auth/skill-development-log.md`
+- Layered auth model (6 layers with escalation)
+- Cookie extraction: production-grade tooling (see Phase 0 evaluation)
+- Cookie sync script: `Web & Browsers/auth/scripts/cookie-sync.sh`
+- Auth service registry: `Web & Browsers/auth/auth-service-registry.md`
+- Safety principles (protect real sessions, human confirmation for sensitive actions)
+- Deploys as: `~/.claude/skills/web-router/references/auth.md`
+
+**Step 1.3: Build `browse` specialist** (SKILL-CRAFT methodology)
 - Development log in `Web & Browsers/browse/skill-development-log.md`
 - Encode 5-dimension tool selection framework as expertise
-- Environment awareness
+- Environment awareness (CC/CAI/Agent SDK paths)
 - Reference docs for grounding (tool APIs, patterns)
+- Uses auth specialist for authenticated browsing
+- Deploys as: `~/.claude/skills/web-router/references/browse.md`
 
-**Step 1.3: Build `auth` skill**
-- Development log in `Web & Browsers/auth/skill-development-log.md`
-- Layered auth model
-- Cookie import mechanism (our own, inspired by gstack)
-- Safety principles
-
-**Step 1.4: Build `web-router`**
+**Step 1.4: Build `web-router` skill**
 - Development log in `Web & Browsers/web-router/skill-development-log.md`
 - Task classification
 - Environment detection
@@ -889,9 +991,20 @@ Skills Factory and AI CoS are cross-synced projects. The messaging system (`.cla
 3. Cross-sync message sent to AI CoS project with: what shipped, what MCPs are needed, what infrastructure changes are needed, test scenario
 4. Aakash picks up AI CoS tasks in AI CoS project with CC
 
-**When AI CoS needs web capabilities:**
-1. Cross-sync message sent to Skills Factory: "Need [capability] for [runner/agent]"
-2. Skills Factory prioritizes accordingly (may reorder phases)
+**When AI CoS needs web capabilities (reverse direction):**
+
+Cross-sync message format (AI CoS → Skills Factory):
+```json
+{"type": "task", "content": "AI CoS needs [capability] for [runner/agent]. Context: [what the runner does, what web task it needs]. Current workaround: [if any]. Priority: [how this affects AI CoS build phases].", "priority": "normal|urgent"}
+```
+
+Trigger scenarios for reverse messages:
+- Runner development discovers a web capability gap → message to Skills Factory
+- Droplet infrastructure change affects web tools → message to Skills Factory
+- MCP tool fails in production → message with failure details to Skills Factory
+- New service needs auth setup → message with service details to Skills Factory
+
+Skills Factory prioritizes accordingly (may reorder phases or add to current sprint).
 
 **Non-linear development is expected.** Aakash may:
 - Work on Phase 1 skills in Skills Factory
@@ -950,7 +1063,50 @@ Logs accumulate per-specialist
 
 ---
 
-## 12. Unknowns & Open Questions
+## 12. Versioning & Rollback
+
+### The Problem
+
+21 deliverables across 4 locations. Skills are .md files — a bad update can degrade Claude's output quality silently. "No drift" and "deterministic outcomes" require version control and regression detection.
+
+### Version Control
+
+- **Skills Factory git repo** is the source of truth for all skill content. Every skill update is a commit.
+- **Git tags** mark phase completions: `phase-0-eval`, `phase-1-foundation`, etc.
+- **Each specialist reference doc** carries a version header: `version: 1.0.0` in YAML frontmatter.
+
+### Regression Testing
+
+Every skill update MUST be tested against the same test scenarios used for initial validation (from the Testing Gates in Section 9) before deploying to `~/.claude/skills/`.
+
+**Process:**
+1. Update specialist reference doc in Skills Factory
+2. Run the phase's test scenarios in CC
+3. Compare output quality against baseline (documented in test gate pass criteria)
+4. If regression detected: revert in git, investigate, fix, re-test
+5. Only deploy to `~/.claude/skills/` after test pass
+
+### Rollback
+
+If a deployed skill produces worse results than before:
+1. `git log` in Skills Factory → find last known-good commit
+2. `git checkout <commit> -- <file>` → restore the specific reference doc
+3. Copy restored file to `~/.claude/skills/web-router/references/`
+4. Log the regression in LEARNINGS.md
+
+### Baseline Documentation
+
+After each phase passes its testing gate, document the baseline:
+- Test scenario
+- Expected output quality
+- Actual output (screenshot or text sample)
+- Tool selection made
+
+Stored in `Web & Browsers/baselines/phase-N-baseline.md`.
+
+---
+
+## 13. Unknowns & Open Questions
 
 ### Technical Unknowns
 
@@ -976,7 +1132,7 @@ Logs accumulate per-specialist
 
 ---
 
-## 13. Deliverables Summary
+## 14. Deliverables Summary
 
 | # | Deliverable | Type | Lives In | Target Environment |
 |---|---|---|---|---|
@@ -1004,7 +1160,7 @@ Logs accumulate per-specialist
 
 ---
 
-## 14. Research Sources
+## 15. Research Sources
 
 Key sources that informed this design:
 
