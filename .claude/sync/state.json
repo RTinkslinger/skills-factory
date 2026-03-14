@@ -10,7 +10,7 @@
   "state": {
     "status": "active",
     "last_session": {
-      "timestamp": "2026-03-14T22:33:31Z",
+      "timestamp": "2026-03-14T22:35:06Z",
       "summary": "Sync initialized by CC↔CAI sync system.",
       "key_commit": "32403ac"
     },
@@ -18,7 +18,9 @@
     "recent_decisions": [],
     "blocked_on": [],
     "next_session_priorities": [],
-    "key_files_changed_last_session": []
+    "key_files_changed_last_session": [
+      "docs/superpowers/specs/2026-03-14-design-review-pass-3-qa.md"
+    ]
   },
   "architecture": {
     "summary": "Skill development workspace using SKILL-CRAFT methodology. Cash Build System v1.1-beta deployed with 6 hooks. ROADMAP.md checkout/commit model active.",
@@ -33,6 +35,6 @@
       "ROADMAP.md checkout/commit model"
     ]
   },
-  "updated_at": "2026-03-14T22:33:31Z",
+  "updated_at": "2026-03-14T22:35:06Z",
   "updated_by": "cc"
 }
