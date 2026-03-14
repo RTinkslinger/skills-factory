@@ -10,15 +10,40 @@
   "state": {
     "status": "active",
     "last_session": {
-      "timestamp": "2026-03-14T22:59:37Z",
-      "summary": "Sync initialized by CC↔CAI sync system.",
-      "key_commit": "32403ac"
+      "timestamp": "2026-03-15T03:30:00Z",
+      "summary": "Research + brainstorming session: full web & frontend skills portfolio design. Deep research on 17+ web resources (gstack, browser-use, Chrome DevTools MCP, Stagehand, Vite 8, CSS 2026, Anthropic computer use). Design doc written (1000+ lines, 15 sections, 21 deliverables). Three-pass review (architect + QA + DevOps) produced 24 findings, all accepted by user. Decision record saved.",
+      "key_commit": "32b605f"
     },
-    "current_tasks": [],
-    "recent_decisions": [],
+    "current_tasks": [
+      "Apply 24 pass-3 review fixes to design doc",
+      "Generate final design doc version",
+      "Transition to implementation planning"
+    ],
+    "recent_decisions": [
+      {"decision": "Three-tier architecture: shared MCP tools → specialist reference docs → web-router orchestration", "rationale": "Prevents CC skill trigger collision, enables environment-specific paths", "date": "2026-03-14"},
+      {"decision": "Specialists are reference docs inside web-router, NOT independent skills", "rationale": "CC skill system activates all matching skills simultaneously — reference docs prevent collision", "date": "2026-03-14"},
+      {"decision": "Separate web-tools MCP on droplet (not extending ai-cos-mcp)", "rationale": "Fault isolation — Chrome crash must not kill Notion/calendar/thesis tools", "date": "2026-03-14"},
+      {"decision": "6-dimension tool selection framework (added output format dimension)", "rationale": "5 dimensions missed consumer type (JSON vs markdown vs streaming)", "date": "2026-03-14"},
+      {"decision": "Phase 0 (tool evaluation) before any skill building", "rationale": "Can't build tool selection framework on unverified tool capabilities", "date": "2026-03-14"},
+      {"decision": "Cookie extraction needs production-grade tooling, not yt-dlp hack", "rationale": "yt-dlp is YouTube downloader side-feature, not production cookie system", "date": "2026-03-14"},
+      {"decision": "Droplet RAM upgrade ($12→$24) is Phase 1 prerequisite", "rationale": "1GB + existing services + Chrome = OOM", "date": "2026-03-14"}
+    ],
     "blocked_on": [],
-    "next_session_priorities": [],
-    "key_files_changed_last_session": []
+    "next_session_priorities": [
+      "Apply all 24 pass-3 review findings to design doc",
+      "Verify all downstream references cascade correctly (M2 lesson)",
+      "Generate final version of design doc",
+      "Transition to implementation planning (writing-plans skill)"
+    ],
+    "key_files_changed_last_session": [
+      "docs/superpowers/specs/2026-03-14-web-frontend-skills-portfolio-design.md",
+      "docs/superpowers/specs/2026-03-14-design-review-pass-2.md",
+      "docs/superpowers/specs/2026-03-14-design-review-pass-3-architect.md",
+      "docs/superpowers/specs/2026-03-14-design-review-pass-3-qa.md",
+      "docs/superpowers/specs/2026-03-14-design-review-pass-3-devops.md",
+      "docs/superpowers/specs/2026-03-14-design-review-pass-3-consolidated.md",
+      "docs/superpowers/specs/2026-03-14-pass-3-decision-record.md"
+    ]
   },
   "architecture": {
     "summary": "Skill development workspace using SKILL-CRAFT methodology. Cash Build System v1.1-beta deployed with 6 hooks. ROADMAP.md checkout/commit model active.",
@@ -33,6 +58,6 @@
       "ROADMAP.md checkout/commit model"
     ]
   },
-  "updated_at": "2026-03-14T22:59:37Z",
+  "updated_at": "2026-03-15T03:30:00Z",
   "updated_by": "cc"
 }
