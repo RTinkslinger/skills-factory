@@ -207,13 +207,24 @@ Any action on an authenticated site where failure could:
 
 ### Observability
 
-Every tool selection gets logged:
-```
-{task: "extract pricing from [site]", specialist: "scrape",
- dimensions: {speed: "seconds", hostility: "moderate", auth: "none",
-              complexity: "single", cost: "low"},
- tool_selected: "firecrawl", reasoning: "no auth, structured extraction, Firecrawl agent mode ideal",
- outcome: "success", latency_ms: 3200, tokens_used: 450}
+Every tool selection gets logged (canonical format — YAML for readability, stored as structured data):
+```yaml
+timestamp: 2026-03-15T10:30:00Z
+specialist: scrape
+task: "extract pricing from [site]"
+environment: CC
+dimensions:
+  speed: seconds
+  hostility: moderate
+  auth: none
+  complexity: single
+  cost: low
+tool_selected: firecrawl
+reasoning: "no auth, structured extraction, Firecrawl agent mode ideal"
+fallback_used: false
+outcome: success
+latency_ms: 3200
+tokens_used: 450
 ```
 
 Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refinements.
@@ -238,6 +249,8 @@ Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refin
 5. Log the routing decision
 
 **What it does NOT do:** Execute web tasks. No browser interactions. No data extraction. Pure routing.
+
+**Activation model:** web-router is the **sole entry point** for all web tasks. Its triggers shadow all specialist triggers. Specialists are never activated directly by the skill system — they are invoked BY the router. This prevents ambiguous multi-skill activation. In CC, only web-router registers triggers; specialist skills exist as reference docs the router loads on demand. In CAI/Agent SDK, the routing logic is embedded in project instructions or agent prompts.
 
 **Environment awareness:**
 - CC: can invoke any specialist, all tools available
@@ -264,7 +277,7 @@ Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refin
 **Tool palette:** Playwright MCP, Chrome DevTools MCP, Stagehand, browser-use, Browserbase, Computer Use API
 
 **Environment paths:**
-- CC: Full palette. Prefers Stagehand for speed, Playwright for structured ops, browser-use for autonomous multi-step.
+- CC: Full palette. Prefers Playwright for deterministic single-action ops, Stagehand for repeatable flows (auto-caches after first run), browser-use for autonomous multi-step with unknown flows. Tool selection per 5-dimension framework, not hardcoded preferences.
 - CAI: Playwright MCP or Chrome DevTools MCP via remote connector. Limited to MCP-accessible operations.
 - Agent SDK: Full palette + Computer Use API as fallback. Can install Chrome on VM.
 
@@ -319,6 +332,8 @@ Logs feed into LEARNINGS.md. Patterns confirmed 2+ times graduate to skill refin
 - Integration with browse skill for "search then navigate to result" workflows
 
 **Preserves:** All v2 routing logic, cost optimization, Context7-first for library docs.
+
+**Base file:** Existing `Web & Browsers/search-router/SKILL.md` (v2) is the base. Only the deltas above are applied — this is a patch, not a rewrite. The v2 decision matrix, cost-benefit table, and fallback strategy remain unchanged.
 
 ---
 
@@ -403,6 +418,22 @@ DROPLET
   └── Tracks expiry, logs when cookies fail
 ```
 
+**Cookie sync script spec:**
+
+| Aspect | Decision |
+|---|---|
+| Language | Bash (simple, cron-friendly, matches existing deploy.sh pattern) |
+| Trigger | Cron on Mac (daily default, configurable) + on-demand CLI invocation |
+| Extraction method | `yt-dlp --cookies-from-browser <browser> --cookies /tmp/cookies-<domain>.txt` (proven pattern from YouTube pipeline). Open question: evaluate dedicated tools if yt-dlp proves insufficient for non-YouTube domains. |
+| Output format | Netscape cookie format (`.txt`) — this is what Playwright's `storageState`, Stagehand, and browser-use all accept natively |
+| Domain filtering | Script accepts domain list as argument. Only exports cookies matching specified domains. |
+| Transport | `rsync -avz --rsh="ssh" /tmp/cookies/ root@aicos-droplet:/opt/ai-cos-mcp/cookies/` over Tailscale |
+| Droplet loading | Playwright: `context.add_cookies()` from parsed Netscape file. Stagehand/browser-use: cookie file path in config. |
+| Location | `Web & Browsers/auth/scripts/cookie-sync.sh` (source in Skills Factory), deployed to Mac + droplet |
+
+**Auth service registry:**
+Discovered per-service auth strategies are documented in `Web & Browsers/auth/auth-service-registry.md` — a living document updated as new services are onboarded. Format: `| Service | Best Layer | Notes | Last Verified |`
+
 **Safety principles:**
 - Never store raw credentials in skill files. Env vars and vault references only.
 - Human confirmation for: first-time auth to new services, payment actions, account changes.
@@ -462,6 +493,16 @@ LOOP:  Re-check at interval → extract current state → diff against baseline
 - CC: One-off monitoring setup, manual re-checks
 - CAI: Can configure via MCP, check results via MCP
 - Agent SDK: Scheduled cron jobs on droplet, autonomous operation
+
+**State storage:**
+
+| Environment | Storage | Location | Format |
+|---|---|---|---|
+| CC | JSON files | `.watch/` in project root or `~/.claude/watch/` | Per-monitor JSON: `{url, schema, interval, threshold, baseline, last_check, last_diff}` |
+| Agent SDK (droplet) | SQLite | `/opt/ai-cos-mcp/watch.db` | Table: `monitors(id, url, schema, interval, threshold, baseline_json, last_check, last_diff_json, status)` |
+| CAI | Via MCP | Stored on droplet (Agent SDK path), queried via MCP tool | Same SQLite, accessed through ai-cos-mcp tool |
+
+Baselines include: extracted data snapshot (JSON), screenshot hash (for visual monitoring), Lighthouse score (for perf monitoring). SQLite on droplet is preferred for Agent SDK because cron jobs need atomic reads/writes and state must survive restarts.
 
 ---
 
@@ -713,8 +754,8 @@ Firecrawl's hosted MCP, Browserbase's MCP, etc. No droplet dependency.
 ### Phase 1: Foundation — browse + auth + web-router
 
 **Step 1.1: Tool Configuration**
-- Install Chrome DevTools MCP globally: `claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest`
-- Install Firecrawl MCP globally: add to ~/.mcp.json with FIRECRAWL_API_KEY
+- Install Chrome DevTools MCP globally: add to `~/.mcp.json` as `{"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest"]}}`
+- Install Firecrawl MCP globally: add to `~/.mcp.json` as `{"firecrawl": {"command": "npx", "args": ["-y", "firecrawl-mcp"], "env": {"FIRECRAWL_API_KEY": "..."}}}` (canonical config method — all MCPs go in ~/.mcp.json)
 - Verify existing Playwright MCP and Stagehand plugin work
 - Evaluate browser-use MCP server: install, test, assess value
 - Evaluate Browserbase: create account, test isolated sessions, assess pricing
@@ -765,6 +806,7 @@ Firecrawl's hosted MCP, Browserbase's MCP, etc. No droplet dependency.
 | CC | "Crawl [site] and extract all blog post titles + dates" | Bulk crawl + extraction works |
 | CC | "Research [topic] deeply" | search v3 routes correctly, observability logs |
 | CAI | "Extract data from [URL]" via Firecrawl MCP | Works in CAI |
+| Agent SDK | Runner calls Firecrawl MCP to extract a company profile page | Structured data returned, matches expected schema |
 
 **Cross-Sync to AI CoS:**
 ```json
