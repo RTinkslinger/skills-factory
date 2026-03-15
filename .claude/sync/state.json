@@ -10,15 +10,11 @@
   "state": {
     "status": "active",
     "last_session": {
-      "timestamp": "2026-03-15T04:38:39Z",
-      "summary": "Applied all 24 pass-3 review fixes to design doc (1181→1328 lines). Populated Notion Build Roadmap with 8 items (design doc verifying, impl plan verifying, P0-P5 in backlog). Created implementation plan: 6 chunks, 28 tasks covering Phases 0-5 with SKILL-CRAFT methodology, testing gates, and failure scenarios.",
-      "key_commit": "pending"
+      "timestamp": "2026-03-15T04:42:18Z",
+      "summary": "Web & Frontend Skills Portfolio complete. All 6 phases (0-5) built, verified on digest.wiki, and shipped. 8 specialist reference docs deployed to web-router, 2 frontend skills updated, CLAUDE.md updated with CSS 2026 standards. 28 files committed, pushed to main.",
+      "key_commit": "e22e26f"
     },
-    "current_tasks": [
-      "User review: design doc with pass-3 fixes (Verifying)",
-      "User review: implementation plan (Verifying)",
-      "Next: begin Phase 0 tool evaluation"
-    ],
+    "current_tasks": [],
     "recent_decisions": [
       {
         "decision": "Three-tier architecture: shared MCP tools → specialist reference docs → web-router orchestration",
@@ -58,10 +54,10 @@
     ],
     "blocked_on": [],
     "next_session_priorities": [
-      "Review and approve design doc (pass 3 fixes) — move to Shipped",
-      "Review implementation plan — move to Shipped",
-      "Begin Phase 0: Tool Evaluation (Task 1-9 in plan)",
-      "Cross-sync droplet RAM upgrade blocker to AI CoS"
+      "Deploy web skills to CAI and Agent SDK surfaces (currently CC-only)",
+      "Build web-tools MCP on droplet for cross-surface access",
+      "Cookie sync infrastructure: deploy cookie-sync.sh to cron, test end-to-end",
+      "Droplet RAM upgrade ($12→$24) still needed for Chrome/Playwright on droplet"
     ],
     "pending_inbox": [],
     "key_files_changed_last_session": [
@@ -90,6 +86,6 @@
       "ROADMAP.md checkout/commit model"
     ]
   },
-  "updated_at": "2026-03-15T04:38:39Z",
+  "updated_at": "2026-03-15T04:42:18Z",
   "updated_by": "cc"
 }
