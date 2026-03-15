@@ -1,0 +1,1505 @@
+{
+  "processed_files": {
+    "/Users/Aakash/.claude/history.jsonl": {
+      "mtime": 1773549957.9884553,
+      "size": 582019
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/007daafb-67bf-4103-a8e2-55576afacc9b.jsonl": {
+      "mtime": 1771953698.018479,
+      "size": 136078
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/0680b1f2-f858-4f1e-ac5d-d32ceda08e9f.jsonl": {
+      "mtime": 1771949783.0777059,
+      "size": 4123
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3.jsonl": {
+      "mtime": 1772125094.9187124,
+      "size": 13378070
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/0adf48cb-fb1d-4f73-adbb-fb0d6226e3f6.jsonl": {
+      "mtime": 1772043662.4803061,
+      "size": 844033
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/1e8baa90-cd48-4a46-95c3-c8d209b2939d.jsonl": {
+      "mtime": 1772103279.483604,
+      "size": 1445117
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/22dd0118-1c8e-4e55-b9e9-c46199968e82.jsonl": {
+      "mtime": 1773435308.3553448,
+      "size": 1308784
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/3928c3cc-a19a-4767-aa26-81b99f066ab7.jsonl": {
+      "mtime": 1772798757.3736491,
+      "size": 6584
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/3b06921c-ad68-45f3-b70e-34ab4587cce2.jsonl": {
+      "mtime": 1773124773.106923,
+      "size": 462944
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/431b4493-0a32-498e-8273-ade5fd9d9d8e.jsonl": {
+      "mtime": 1771977737.4303803,
+      "size": 236498
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/48f2559f-d8f3-4bb1-b08a-3acb9fbf5fa7.jsonl": {
+      "mtime": 1773123819.2704322,
+      "size": 2965
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/491ac8c0-08ef-4b28-a356-60482618e7c6.jsonl": {
+      "mtime": 1773435648.1141257,
+      "size": 83335
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/667cc38b-bdff-4c0a-8a27-119817e0dc7f.jsonl": {
+      "mtime": 1773145686.3211954,
+      "size": 2968
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/69582fcf-8901-4e16-a410-0c88aa81e44b.jsonl": {
+      "mtime": 1773126887.4970505,
+      "size": 16470
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7b922c3f-c257-43c1-97b0-eb9340f870ab.jsonl": {
+      "mtime": 1772798683.322885,
+      "size": 419461
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7c3e99ea-f45a-4f2c-8112-29fc66c0dcd4.jsonl": {
+      "mtime": 1773092833.9597983,
+      "size": 2968
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/847e6a42-0177-4452-8706-f50098efb21a.jsonl": {
+      "mtime": 1771312069.3329155,
+      "size": 10793
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b.jsonl": {
+      "mtime": 1771953358.2329605,
+      "size": 36845633
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8dfc0f95-1e56-4801-aabb-de8befa989b4.jsonl": {
+      "mtime": 1771974899.5659347,
+      "size": 3217530
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8f63a35c-b02f-4fb2-b85a-ebc5c343a478.jsonl": {
+      "mtime": 1773436425.096412,
+      "size": 578598
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/911c4f88-6498-4c41-9a92-4d80b74ca158.jsonl": {
+      "mtime": 1773145225.591353,
+      "size": 688804
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/9ef9f0f3-67d5-4c39-892a-d5d1c866d631.jsonl": {
+      "mtime": 1773402777.9918363,
+      "size": 48913
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/a1a9d0d1-de9a-4389-8486-d5327805c7cb.jsonl": {
+      "mtime": 1773092839.2896912,
+      "size": 1256
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/a31ad5e1-4a5b-4fef-a91f-eba731d32ed2.jsonl": {
+      "mtime": 1773123798.8057587,
+      "size": 421143
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/bd0ff7ae-2c74-4874-9a52-e387b5f23a00.jsonl": {
+      "mtime": 1771977743.747455,
+      "size": 714279
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/bfe775eb-3223-4bbc-a315-2b0bb5508dea.jsonl": {
+      "mtime": 1773073430.505484,
+      "size": 10377
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/c18e7088-607a-4e9f-b441-616b306d7904.jsonl": {
+      "mtime": 1771977065.0398026,
+      "size": 3356
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/c5441955-86a9-4ef9-ad18-2c9d67cb0241.jsonl": {
+      "mtime": 1773140045.2696514,
+      "size": 54100
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/c71d8d91-4d38-46ac-a1ce-c3f5b0bd3bee.jsonl": {
+      "mtime": 1771311462.5722094,
+      "size": 809312
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/cda078cf-8168-4eca-a344-2793414f49a8.jsonl": {
+      "mtime": 1772668350.9864452,
+      "size": 4192
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d.jsonl": {
+      "mtime": 1772124872.586056,
+      "size": 2333115
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d859014f-30d9-4442-8230-446f03499aab.jsonl": {
+      "mtime": 1773403015.5131974,
+      "size": 49067
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/e11c6296-a652-4273-9dbf-bb7a3a244be2.jsonl": {
+      "mtime": 1772015741.5709043,
+      "size": 2455260
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/f13b0397-64b3-4913-83a1-5dd3285d0efb.jsonl": {
+      "mtime": 1771957101.1142955,
+      "size": 1415638
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/2444f90e-66be-4525-b850-37e4e367725e.jsonl": {
+      "mtime": 1773164048.263031,
+      "size": 4578
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/2b3dd9ab-dc8d-4ea8-a84a-77c44c7af8bd.jsonl": {
+      "mtime": 1772747627.7174952,
+      "size": 10572
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/2e2835e0-6871-44d6-9dfc-42429547c98a.jsonl": {
+      "mtime": 1772747909.3143399,
+      "size": 6796
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/37306889-586e-47a0-9fab-436c3400c9ee.jsonl": {
+      "mtime": 1772747820.3009574,
+      "size": 7592
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/443d73bb-c173-461f-8730-098b4bd01441.jsonl": {
+      "mtime": 1773162962.8933382,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/49926069-80cd-4694-94d8-5b23cf7c2a85.jsonl": {
+      "mtime": 1773163683.99881,
+      "size": 4247
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/4995e00e-50f1-46f6-8b75-392606b82891.jsonl": {
+      "mtime": 1773164281.4557624,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/4bee6a7d-0df7-4350-ad8c-e13aa7344438.jsonl": {
+      "mtime": 1773163801.6852443,
+      "size": 6019
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/5218af72-ff12-4649-95d8-99a69be96c10.jsonl": {
+      "mtime": 1773163394.8099082,
+      "size": 4259
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/53d82374-fbbc-48c7-ac43-3410394dbfec.jsonl": {
+      "mtime": 1772748939.356755,
+      "size": 4042
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/5790bd66-370d-4485-a1b1-a5b13286043d.jsonl": {
+      "mtime": 1773163804.9551659,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/76259b1b-f72d-4f4d-9574-67d5a973127f.jsonl": {
+      "mtime": 1773163652.3511996,
+      "size": 18123
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/81c053d3-1c60-418e-87fb-a4573f07030a.jsonl": {
+      "mtime": 1772853697.4853482,
+      "size": 1367556
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/84a32317-97cb-4ddd-accc-4ef9effd76ef.jsonl": {
+      "mtime": 1773164167.3669553,
+      "size": 5229
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/988a7275-43a7-4e1a-b697-4a36d42052a2.jsonl": {
+      "mtime": 1773539588.2497463,
+      "size": 1123093
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/a1f56080-e342-4cc4-bd30-ccc6eecbc1c9.jsonl": {
+      "mtime": 1773164531.4117434,
+      "size": 622007
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/a3346c16-1f47-4523-b681-eab5d4b6ee46.jsonl": {
+      "mtime": 1773163801.4012258,
+      "size": 2490
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/c82bc794-c460-4bf5-b71d-b55f339fbd87.jsonl": {
+      "mtime": 1773163415.3664691,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/cba4c14c-20f0-4d53-a2c8-174d8651b9f4.jsonl": {
+      "mtime": 1772746568.9155989,
+      "size": 1197428
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/d6645f46-3a66-4c16-ad9c-295ac2b4b76a.jsonl": {
+      "mtime": 1772748250.0172427,
+      "size": 10386
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/de0dc160-b778-421b-a195-3fa0b707ddc5.jsonl": {
+      "mtime": 1773390152.8858657,
+      "size": 3593
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/f9eb124e-5c86-436a-abce-716583a05340.jsonl": {
+      "mtime": 1773389383.1848915,
+      "size": 110493
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/fa587f25-7a1d-4ae7-a768-695eb7f48228.jsonl": {
+      "mtime": 1773389065.54492,
+      "size": 142530
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/faeb7045-6a45-4b55-92f5-2b86acd5f5aa.jsonl": {
+      "mtime": 1773164071.2679179,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/fc6f090f-ed39-4a96-835b-dd33f53b69bf.jsonl": {
+      "mtime": 1772747226.8484597,
+      "size": 135026
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/fdf4397b-b430-4630-84e0-553a90ba6953.jsonl": {
+      "mtime": 1772747517.890679,
+      "size": 15132
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd.jsonl": {
+      "mtime": 1772706437.896778,
+      "size": 2287871
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/1006ae66-6fec-4f06-b708-d8100ceecf59.jsonl": {
+      "mtime": 1772712661.441393,
+      "size": 1220645
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/1e9605f9-a152-451a-a87b-0b11e04575d1.jsonl": {
+      "mtime": 1773444356.4716337,
+      "size": 1032930
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/3005b5be-1d69-4bed-a9bb-f3ee8efae612.jsonl": {
+      "mtime": 1772700148.5720017,
+      "size": 1386436
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/320097ae-a253-4625-a63b-21fea9289b17.jsonl": {
+      "mtime": 1773164009.6642451,
+      "size": 16315
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/4ef0d71d-4291-4bf8-87b4-fc5d45883b9e.jsonl": {
+      "mtime": 1773447855.0516133,
+      "size": 6391
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/63e1c9a3-c448-42f3-aa56-5efd43deed4d.jsonl": {
+      "mtime": 1773163571.3760633,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/6613284a-09c2-40da-818b-22a4055a8875.jsonl": {
+      "mtime": 1773438825.9741087,
+      "size": 531963
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/6b0d2ddb-97d4-49b7-85f1-1e94b08a6c25.jsonl": {
+      "mtime": 1773441861.2554708,
+      "size": 1294545
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/87faa0ef-72de-419a-b04c-0cba9b9ab85a.jsonl": {
+      "mtime": 1773370863.223431,
+      "size": 5239
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642.jsonl": {
+      "mtime": 1773117485.6590621,
+      "size": 11510704
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/9853f6a2-288b-4e3d-8363-8866b16ad5a9.jsonl": {
+      "mtime": 1773327681.3224833,
+      "size": 6517
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/9fc527c9-5ab5-4ed7-848c-1e863d4c9ce1.jsonl": {
+      "mtime": 1773269905.361983,
+      "size": 107268
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/a7b05c57-aef7-49c6-b0f7-703ffd9a8220.jsonl": {
+      "mtime": 1773124643.9268167,
+      "size": 318887
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/ad2556c1-4ed5-4577-a21d-26222705f956.jsonl": {
+      "mtime": 1772670170.146917,
+      "size": 1285753
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3.jsonl": {
+      "mtime": 1772759244.834323,
+      "size": 5454233
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/d1941175-0f7a-4e27-8316-341f558f1f7b.jsonl": {
+      "mtime": 1773327230.6982827,
+      "size": 317127
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/d68edb32-bc3e-4952-ac71-3f2e072089f8.jsonl": {
+      "mtime": 1773384093.7530918,
+      "size": 362346
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7.jsonl": {
+      "mtime": 1772736883.013735,
+      "size": 5702394
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5.jsonl": {
+      "mtime": 1773375479.2411766,
+      "size": 5009171
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/19ba49bf-0c3b-404e-bb3f-0309e9724353.jsonl": {
+      "mtime": 1773325559.6257854,
+      "size": 11676
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/29cf96e2-d7a1-4989-b91a-af5a81dda7ba.jsonl": {
+      "mtime": 1773324407.9524689,
+      "size": 281106
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/5d1ca1a4-287f-4a36-90cc-b6d6d6bed6ce.jsonl": {
+      "mtime": 1773447843.1624522,
+      "size": 3293853
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/72a6b364-1c7a-4a30-91aa-582024a05a91.jsonl": {
+      "mtime": 1773325649.966925,
+      "size": 4945
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/b7fa532b-dad7-4ba9-bdaa-c56bf27aa1e8.jsonl": {
+      "mtime": 1773325008.002066,
+      "size": 411270
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/d513b094-6f85-445f-a70a-f61704d9e122.jsonl": {
+      "mtime": 1773322162.5495675,
+      "size": 268660
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb.jsonl": {
+      "mtime": 1773363953.9351506,
+      "size": 4315980
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC-Mastery/235f9f20-8fa0-4b4f-8788-dbaa6040aff5.jsonl": {
+      "mtime": 1773391763.1742942,
+      "size": 935123
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC-Mastery/ca49ec20-7e09-43a6-a732-8ba3bb742203.jsonl": {
+      "mtime": 1773437790.740365,
+      "size": 587031
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/00b910ba-ab73-41c5-97f0-40f880b2149f.jsonl": {
+      "mtime": 1773147209.344261,
+      "size": 223498
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924.jsonl": {
+      "mtime": 1773118093.8099365,
+      "size": 10272545
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/5afec14f-fa2f-4341-82de-10f8803d8848.jsonl": {
+      "mtime": 1773161753.663358,
+      "size": 1588689
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/66341ed7-15dd-43aa-bf02-40120d2ed6c6.jsonl": {
+      "mtime": 1773147125.116338,
+      "size": 715619
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/ce4345c5-3074-4e0e-9dab-242b97d49215.jsonl": {
+      "mtime": 1773272308.817652,
+      "size": 4498
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/634e3d65-af0e-4e82-a175-5f08db9fd2c2.jsonl": {
+      "mtime": 1773543458.9590843,
+      "size": 3988018
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/265be91b-d603-448b-af82-ca46656ad98e.jsonl": {
+      "mtime": 1773535393.165474,
+      "size": 4340032
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699.jsonl": {
+      "mtime": 1773529516.4924586,
+      "size": 4197167
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/0f7da6fa-9bb2-4a56-8fcc-cd0355a1bbf6.jsonl": {
+      "mtime": 1773162721.2104852,
+      "size": 296
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/5612d9ac-d3df-4627-8691-27f3b7ab3503.jsonl": {
+      "mtime": 1773074326.5560834,
+      "size": 130887
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/82eb0fe6-cac1-48d5-902d-f2b3097176a5.jsonl": {
+      "mtime": 1773162811.1819105,
+      "size": 152977
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/92542b9d-e36e-418f-91f0-43fb41e35aff.jsonl": {
+      "mtime": 1773075950.4115326,
+      "size": 218815
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/b946380d-6c4c-4c18-9e8d-6e5004b719b8.jsonl": {
+      "mtime": 1773105026.261829,
+      "size": 914112
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/beb5082b-7005-4146-b078-68a49f92e565.jsonl": {
+      "mtime": 1773162866.119092,
+      "size": 4482
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/c1c5e4e3-2569-4eee-9cc2-e7baa61d4b8b.jsonl": {
+      "mtime": 1773374663.188216,
+      "size": 1905702
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/ccd5b23b-1893-4192-ac95-89c58db05f95.jsonl": {
+      "mtime": 1773162012.8238893,
+      "size": 7737
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/ef6092db-1989-4bf5-8e34-3f3007b7d655.jsonl": {
+      "mtime": 1773161868.1820354,
+      "size": 2653231
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Frontend-Skills---MCPs/10c27917-5f82-4819-8d88-75d0a863f3c9.jsonl": {
+      "mtime": 1772802490.5106144,
+      "size": 4788
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Frontend-Skills---MCPs/6487efb4-4809-4293-92ae-714bc931bcf7.jsonl": {
+      "mtime": 1772802477.7480853,
+      "size": 783741
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Frontend-Skills---MCPs/f326b84b-59db-4a22-a9d7-d319a88f424e.jsonl": {
+      "mtime": 1772805415.093779,
+      "size": 4030863
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Frontend-Skills---MCPs/fb4925b1-b411-4ce6-97b1-db30902e6506.jsonl": {
+      "mtime": 1772801264.5426483,
+      "size": 2414063
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Interview-Cash/2661d22c-a78a-40df-a4dc-09e358056df3.jsonl": {
+      "mtime": 1773378262.2935638,
+      "size": 765227
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Traces--Learnings---Roadmap/4c7b3a10-9ad2-4936-8d71-d4b2bfd5cb9c.jsonl": {
+      "mtime": 1772804698.678502,
+      "size": 652419
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-monty/10452855-4696-4396-9a3e-f28e02327989.jsonl": {
+      "mtime": 1773181660.4239588,
+      "size": 6014
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095.jsonl": {
+      "mtime": 1772241713.6250336,
+      "size": 19983447
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-test-flight-mode/e273f3ea-1d67-4e91-8a31-b68ed66dcd0d.jsonl": {
+      "mtime": 1773073812.547229,
+      "size": 29696
+    },
+    "/Users/Aakash/.claude/projects/-private-tmp-flight-test-repo/3d38cdda-d79f-46fe-a599-ba0e62beafff.jsonl": {
+      "mtime": 1773161410.0455487,
+      "size": 111709
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/03723cc8-1c82-43a6-9f79-5784655ffecf/subagents/agent-a589186.jsonl": {
+      "mtime": 1768253385.4920683,
+      "size": 1177
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/03723cc8-1c82-43a6-9f79-5784655ffecf/subagents/agent-a91588f.jsonl": {
+      "mtime": 1768253384.678285,
+      "size": 1160
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/03723cc8-1c82-43a6-9f79-5784655ffecf/subagents/agent-ae610af.jsonl": {
+      "mtime": 1768253384.2106113,
+      "size": 1331
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-a519f466c45ba0949.jsonl": {
+      "mtime": 1772122089.4811168,
+      "size": 165317
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-a53bb90c1792395c5.jsonl": {
+      "mtime": 1772116667.2353413,
+      "size": 243536
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-a651f468fe948573f.jsonl": {
+      "mtime": 1772116911.519263,
+      "size": 236976
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-a99d64345c4c745eb.jsonl": {
+      "mtime": 1772117516.0566497,
+      "size": 164347
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-ac1c05e5f7a94e6b1.jsonl": {
+      "mtime": 1772110659.4251022,
+      "size": 180503
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-ac63423a571ed692c.jsonl": {
+      "mtime": 1772103287.9919636,
+      "size": 1242
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-37179efb2cb140ae.jsonl": {
+      "mtime": 1772116990.2319784,
+      "size": 64869
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-50006d6090b1a09e.jsonl": {
+      "mtime": 1772113140.2311418,
+      "size": 34799
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-5209f7eca8f10c2f.jsonl": {
+      "mtime": 1772105313.567054,
+      "size": 36434
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-59f3a7c2fed1a65e.jsonl": {
+      "mtime": 1772123461.7158427,
+      "size": 32101
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-8a592659f3075d08.jsonl": {
+      "mtime": 1772112582.587309,
+      "size": 23142
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-c8c09da093e29703.jsonl": {
+      "mtime": 1772119720.916894,
+      "size": 26694
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-db6d56968cec9165.jsonl": {
+      "mtime": 1772108969.11339,
+      "size": 33199
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-acompact-e4a3a683ecf97e9c.jsonl": {
+      "mtime": 1772121828.84245,
+      "size": 31210
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/09139599-8fc9-4def-92e4-e9f44abfd5c3/subagents/agent-ad7105120af7c993c.jsonl": {
+      "mtime": 1772116688.3716283,
+      "size": 265651
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/0adf48cb-fb1d-4f73-adbb-fb0d6226e3f6/subagents/agent-a7dbd35e82c46585b.jsonl": {
+      "mtime": 1772041495.7128372,
+      "size": 166793
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/3b06921c-ad68-45f3-b70e-34ab4587cce2/subagents/agent-a84449ff4ea3262ea.jsonl": {
+      "mtime": 1773123370.0851626,
+      "size": 164475
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7b922c3f-c257-43c1-97b0-eb9340f870ab/subagents/agent-ad56329cdfae96d77.jsonl": {
+      "mtime": 1772786887.3721182,
+      "size": 78985
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7dc82b6f-100f-4be8-b33a-823503f9eeef/subagents/agent-a1b3bb1.jsonl": {
+      "mtime": 1767940875.183225,
+      "size": 1387
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7dc82b6f-100f-4be8-b33a-823503f9eeef/subagents/agent-a2f7594.jsonl": {
+      "mtime": 1767940875.183687,
+      "size": 1163
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/7dc82b6f-100f-4be8-b33a-823503f9eeef/subagents/agent-abfc96c.jsonl": {
+      "mtime": 1767940882.3634508,
+      "size": 1827
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a0841f1.jsonl": {
+      "mtime": 1771924471.1334352,
+      "size": 79158
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a17f5d5.jsonl": {
+      "mtime": 1771926775.8666906,
+      "size": 3980
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a225740.jsonl": {
+      "mtime": 1771922553.4932535,
+      "size": 89169
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a2ed179.jsonl": {
+      "mtime": 1771927017.6925027,
+      "size": 17155440
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a5903f1.jsonl": {
+      "mtime": 1771926568.390345,
+      "size": 43590
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-a7f0efc.jsonl": {
+      "mtime": 1771922514.753644,
+      "size": 73010
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-ab4a2ef.jsonl": {
+      "mtime": 1771929202.3586645,
+      "size": 199792
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-4a3140.jsonl": {
+      "mtime": 1771912738.469741,
+      "size": 30427
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-4d4a4d.jsonl": {
+      "mtime": 1771916992.0356,
+      "size": 69657
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-6612ee.jsonl": {
+      "mtime": 1771912630.9573307,
+      "size": 21913
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-89064d.jsonl": {
+      "mtime": 1771950089.0344806,
+      "size": 85872
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-90d603.jsonl": {
+      "mtime": 1771917543.4380884,
+      "size": 157944
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-ba4c39.jsonl": {
+      "mtime": 1771921974.6534686,
+      "size": 23107
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-beb53c.jsonl": {
+      "mtime": 1771916760.3587143,
+      "size": 24440
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-acompact-d7eb07.jsonl": {
+      "mtime": 1771927401.137703,
+      "size": 22177
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8b65c0e6-2310-494a-b05b-c9c5e27c418b/subagents/agent-ad5d1f8.jsonl": {
+      "mtime": 1771926110.1900203,
+      "size": 103661
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8dfc0f95-1e56-4801-aabb-de8befa989b4/subagents/agent-a06399a0a470a94e5.jsonl": {
+      "mtime": 1771963331.2984676,
+      "size": 109749
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8dfc0f95-1e56-4801-aabb-de8befa989b4/subagents/agent-acompact-35758e6378229eb8.jsonl": {
+      "mtime": 1771973758.3265939,
+      "size": 34164
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8dfc0f95-1e56-4801-aabb-de8befa989b4/subagents/agent-acompact-f011ec0df0cc9c1f.jsonl": {
+      "mtime": 1771969334.087678,
+      "size": 23756
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/8f63a35c-b02f-4fb2-b85a-ebc5c343a478/subagents/agent-a4bb48ae843ba332b.jsonl": {
+      "mtime": 1773435741.511843,
+      "size": 83289
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/911c4f88-6498-4c41-9a92-4d80b74ca158/subagents/agent-aaaeb8ddeeaf8d090.jsonl": {
+      "mtime": 1773143078.0305796,
+      "size": 178630
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/9b7d92da-ee83-49f0-878a-08bd40d1d9cb/subagents/agent-a6aa9dc.jsonl": {
+      "mtime": 1768299302.5416985,
+      "size": 1161
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/9b7d92da-ee83-49f0-878a-08bd40d1d9cb/subagents/agent-a6c33ce.jsonl": {
+      "mtime": 1768299306.7141554,
+      "size": 1919
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/9b7d92da-ee83-49f0-878a-08bd40d1d9cb/subagents/agent-aaa2b82.jsonl": {
+      "mtime": 1768299305.6581545,
+      "size": 1232
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ab8c75bc-cde4-41ed-b89e-4d081eba320c/subagents/agent-a2eb454.jsonl": {
+      "mtime": 1768075858.1693769,
+      "size": 1346
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ab8c75bc-cde4-41ed-b89e-4d081eba320c/subagents/agent-a498a5a.jsonl": {
+      "mtime": 1768075856.8590643,
+      "size": 1161
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ab8c75bc-cde4-41ed-b89e-4d081eba320c/subagents/agent-ae9e170.jsonl": {
+      "mtime": 1768075856.8568704,
+      "size": 1691
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b1f3ea7b-3938-4f71-984f-5716ef433be1/subagents/agent-a3d3eb8.jsonl": {
+      "mtime": 1768302822.9824333,
+      "size": 1590
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b1f3ea7b-3938-4f71-984f-5716ef433be1/subagents/agent-a4f6f23.jsonl": {
+      "mtime": 1768302822.2896597,
+      "size": 2044
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b1f3ea7b-3938-4f71-984f-5716ef433be1/subagents/agent-ae1210d.jsonl": {
+      "mtime": 1768302820.9435048,
+      "size": 1163
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b921c762-885a-46bf-a58d-ad432644dc8c/subagents/agent-a8b6ae9.jsonl": {
+      "mtime": 1768253105.8820486,
+      "size": 1349
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b921c762-885a-46bf-a58d-ad432644dc8c/subagents/agent-aa6f64d.jsonl": {
+      "mtime": 1768253103.612068,
+      "size": 1637
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/b921c762-885a-46bf-a58d-ad432644dc8c/subagents/agent-aef5f61.jsonl": {
+      "mtime": 1768253102.8392107,
+      "size": 1161
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/baa2e309-3deb-4332-8e2c-394d7b97971e/subagents/agent-a794e70.jsonl": {
+      "mtime": 1768075122.290939,
+      "size": 1606
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/baa2e309-3deb-4332-8e2c-394d7b97971e/subagents/agent-aaa3bb4.jsonl": {
+      "mtime": 1768075119.479684,
+      "size": 1162
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/baa2e309-3deb-4332-8e2c-394d7b97971e/subagents/agent-ab4bedc.jsonl": {
+      "mtime": 1768075119.9595823,
+      "size": 1693
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ca0844b7-d5e3-4137-b57c-b420780be3bf/subagents/agent-a066645.jsonl": {
+      "mtime": 1768235251.6151803,
+      "size": 1651
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ca0844b7-d5e3-4137-b57c-b420780be3bf/subagents/agent-a1ec220.jsonl": {
+      "mtime": 1768235248.42487,
+      "size": 1785
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/ca0844b7-d5e3-4137-b57c-b420780be3bf/subagents/agent-af0b2d0.jsonl": {
+      "mtime": 1768235248.2239654,
+      "size": 1162
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d/subagents/agent-a3140128d45641aa8.jsonl": {
+      "mtime": 1772020558.2949865,
+      "size": 34036
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d/subagents/agent-a63cab438fc22e6b8.jsonl": {
+      "mtime": 1772018905.7166975,
+      "size": 10083
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d/subagents/agent-a8c737c730e1ff301.jsonl": {
+      "mtime": 1772020569.4939318,
+      "size": 40356
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d/subagents/agent-acompact-41ec6240ea0918fb.jsonl": {
+      "mtime": 1772017447.4143856,
+      "size": 91166
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/d812a927-60da-43e2-b792-b069be20872d/subagents/agent-aff1f1ce1e09fc3e0.jsonl": {
+      "mtime": 1772018918.6112046,
+      "size": 38792
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/e11c6296-a652-4273-9dbf-bb7a3a244be2/subagents/agent-a582590ee6fbb37fe.jsonl": {
+      "mtime": 1772014221.8382542,
+      "size": 72719
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/e11c6296-a652-4273-9dbf-bb7a3a244be2/subagents/agent-a899df52fa43dd26f.jsonl": {
+      "mtime": 1772015507.9800587,
+      "size": 221970
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/e11c6296-a652-4273-9dbf-bb7a3a244be2/subagents/agent-aa69b1fa1153e30d0.jsonl": {
+      "mtime": 1772014312.9034917,
+      "size": 222248
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/e11c6296-a652-4273-9dbf-bb7a3a244be2/subagents/agent-acompact-547249ce9eb22f84.jsonl": {
+      "mtime": 1772013519.0318472,
+      "size": 37572
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/f13b0397-64b3-4913-83a1-5dd3285d0efb/subagents/agent-a315b43aa0da3469b.jsonl": {
+      "mtime": 1771956552.3590734,
+      "size": 35113
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/f13b0397-64b3-4913-83a1-5dd3285d0efb/subagents/agent-a4667dfdf94158637.jsonl": {
+      "mtime": 1771956659.073006,
+      "size": 147436
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/f13b0397-64b3-4913-83a1-5dd3285d0efb/subagents/agent-a47462eea5156c67a.jsonl": {
+      "mtime": 1771956552.1670487,
+      "size": 57379
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash/f13b0397-64b3-4913-83a1-5dd3285d0efb/subagents/agent-acf3de25230836638.jsonl": {
+      "mtime": 1771955901.148429,
+      "size": 74934
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/81c053d3-1c60-418e-87fb-a4573f07030a/subagents/agent-acompact-b32b6369e8a42417.jsonl": {
+      "mtime": 1772808352.7177665,
+      "size": 1259014
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/988a7275-43a7-4e1a-b697-4a36d42052a2/subagents/agent-a06d98459ac58224d.jsonl": {
+      "mtime": 1773526129.402258,
+      "size": 233610
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/988a7275-43a7-4e1a-b697-4a36d42052a2/subagents/agent-a943d3b997bfaf87a.jsonl": {
+      "mtime": 1773534009.7603014,
+      "size": 168553
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/f9eb124e-5c86-436a-abce-716583a05340/subagents/agent-aa8e53f79ac60f3b3.jsonl": {
+      "mtime": 1773384922.3570275,
+      "size": 98638
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd/subagents/agent-a20d593f122049e90.jsonl": {
+      "mtime": 1772701184.932581,
+      "size": 247045
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd/subagents/agent-a35de07de5b163d19.jsonl": {
+      "mtime": 1772701151.246025,
+      "size": 162370
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd/subagents/agent-aa8116f498fb455d4.jsonl": {
+      "mtime": 1772704438.585723,
+      "size": 169002
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd/subagents/agent-acompact-e4b40d0c2983c4c1.jsonl": {
+      "mtime": 1772705991.620362,
+      "size": 56875
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/072d6e6a-9306-47f5-963a-eb72fa360ecd/subagents/agent-ad0f0910cb7fd7a3f.jsonl": {
+      "mtime": 1772705799.3681636,
+      "size": 166903
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/1006ae66-6fec-4f06-b708-d8100ceecf59/subagents/agent-a2e8f9f19c043f22e.jsonl": {
+      "mtime": 1772710500.0067577,
+      "size": 140666
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/1006ae66-6fec-4f06-b708-d8100ceecf59/subagents/agent-a9139270b313a6c2d.jsonl": {
+      "mtime": 1772710468.3222954,
+      "size": 75748
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/3005b5be-1d69-4bed-a9bb-f3ee8efae612/subagents/agent-a482eb2c1ba1e33ec.jsonl": {
+      "mtime": 1772699880.8280704,
+      "size": 146717
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/6613284a-09c2-40da-818b-22a4055a8875/subagents/agent-af8b8dfbebe92f5db.jsonl": {
+      "mtime": 1773438758.7930915,
+      "size": 71442
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/6b0d2ddb-97d4-49b7-85f1-1e94b08a6c25/subagents/agent-a8a30ef70befe3b2b.jsonl": {
+      "mtime": 1773439661.1813986,
+      "size": 111826
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-5314a4875b4ab650.jsonl": {
+      "mtime": 1772900841.3946261,
+      "size": 20432
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-ab17902af1b0454f.jsonl": {
+      "mtime": 1772777111.2691886,
+      "size": 25499
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-bb84397cab5be1b5.jsonl": {
+      "mtime": 1772891411.6774871,
+      "size": 24601
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-db5e6fd9660ba2ec.jsonl": {
+      "mtime": 1772761156.2354047,
+      "size": 22669
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-e4323a2098e6369d.jsonl": {
+      "mtime": 1773026028.7583857,
+      "size": 28439
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-edc44c818ac2ea5b.jsonl": {
+      "mtime": 1772903558.0760005,
+      "size": 22702
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-acompact-f02c846e0f9ca863.jsonl": {
+      "mtime": 1772772920.9575143,
+      "size": 26907
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/91f5fbc6-6d80-466f-9b04-e8e859c4d642/subagents/agent-ad995571843438208.jsonl": {
+      "mtime": 1772890918.3987346,
+      "size": 204741
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/ad2556c1-4ed5-4577-a21d-26222705f956/subagents/agent-a1aaf2d1a16cf77fa.jsonl": {
+      "mtime": 1772669374.2308037,
+      "size": 196866
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/ad2556c1-4ed5-4577-a21d-26222705f956/subagents/agent-a5850788de3a24911.jsonl": {
+      "mtime": 1772669293.6937625,
+      "size": 172851
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/ad2556c1-4ed5-4577-a21d-26222705f956/subagents/agent-a8cb8395de49df36e.jsonl": {
+      "mtime": 1772669621.5748124,
+      "size": 309106
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/ad2556c1-4ed5-4577-a21d-26222705f956/subagents/agent-aff99b15d42b84387.jsonl": {
+      "mtime": 1772669269.6404045,
+      "size": 34496
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-a1f25ef047519b2ce.jsonl": {
+      "mtime": 1772756760.7875423,
+      "size": 191675
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-a33b0718ce3e0b594.jsonl": {
+      "mtime": 1772738011.8554516,
+      "size": 14355
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-a43e9275203858563.jsonl": {
+      "mtime": 1772754152.506426,
+      "size": 276247
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-acompact-2e3ab1493054c8f6.jsonl": {
+      "mtime": 1772744581.9577117,
+      "size": 15918
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-acompact-59cb8f5c5710a613.jsonl": {
+      "mtime": 1772742078.5092707,
+      "size": 25176
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-acompact-ad0a398bc6779ac9.jsonl": {
+      "mtime": 1772757664.9100811,
+      "size": 24187
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-acompact-e9b5b59d0f9b98f6.jsonl": {
+      "mtime": 1772751610.5038218,
+      "size": 24802
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-acompact-fb026b3f77d13a29.jsonl": {
+      "mtime": 1772755461.1999013,
+      "size": 29136
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/c13ec303-ac6b-49db-80a3-e7680efdacd3/subagents/agent-ad00163e6ce7e8932.jsonl": {
+      "mtime": 1772744906.8656938,
+      "size": 159661
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/d1941175-0f7a-4e27-8316-341f558f1f7b/subagents/agent-aafcf30778f924b99.jsonl": {
+      "mtime": 1773327111.6252348,
+      "size": 103959
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-a39419ece1a66b207.jsonl": {
+      "mtime": 1772728137.5553737,
+      "size": 6094
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-a3cc90e359a79afdd.jsonl": {
+      "mtime": 1772725735.8895984,
+      "size": 77355
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-acompact-02554427fa2bd04f.jsonl": {
+      "mtime": 1772725003.5574124,
+      "size": 24689
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-acompact-49480e02a7c10517.jsonl": {
+      "mtime": 1772731645.0513935,
+      "size": 25305
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-acompact-4f04f2c188041e0f.jsonl": {
+      "mtime": 1772727916.793351,
+      "size": 25301
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Aakash-AI-CoS-CC-ADK/e9268004-ce19-46bb-a6ed-d9604cac53c7/subagents/agent-ade2694d883303e2d.jsonl": {
+      "mtime": 1772712735.9601243,
+      "size": 150540
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-a10dce5fc0d423ffd.jsonl": {
+      "mtime": 1773367337.3898797,
+      "size": 231236
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-a5b20cbeafc2d4e0a.jsonl": {
+      "mtime": 1773365283.1137068,
+      "size": 267166
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-a9e802ed5ff4246f2.jsonl": {
+      "mtime": 1773365313.4000661,
+      "size": 300138
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-ab95462c6d053ca6a.jsonl": {
+      "mtime": 1773367322.831621,
+      "size": 152681
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-acompact-81675dea56e11bb7.jsonl": {
+      "mtime": 1773365987.4439175,
+      "size": 1126597
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-acompact-885630cb52f1e814.jsonl": {
+      "mtime": 1773371045.2467217,
+      "size": 895115
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-acompact-aa590195eaef613b.jsonl": {
+      "mtime": 1773370476.288466,
+      "size": 1724015
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/0c2e2866-0042-429c-9f68-cf2465c795b5/subagents/agent-ad626889b72ac34e1.jsonl": {
+      "mtime": 1773365245.5194538,
+      "size": 196495
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/19ba49bf-0c3b-404e-bb3f-0309e9724353/subagents/agent-acompact-ffae3aa7a53710d4.jsonl": {
+      "mtime": 1773325559.1951373,
+      "size": 15687
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/b7fa532b-dad7-4ba9-bdaa-c56bf27aa1e8/subagents/agent-ab16f31a7a8f5a1c6.jsonl": {
+      "mtime": 1773324965.7138894,
+      "size": 218199
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a0c955f290c4d7583.jsonl": {
+      "mtime": 1773349495.590422,
+      "size": 116973
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a419fb84c72400b92.jsonl": {
+      "mtime": 1773327949.6496224,
+      "size": 214407
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a48ad03250f649618.jsonl": {
+      "mtime": 1773357216.2649534,
+      "size": 121800
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a6ddcf93c2fcbc87c.jsonl": {
+      "mtime": 1773357623.3429205,
+      "size": 334134
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a7fb52c7510c0ba74.jsonl": {
+      "mtime": 1773349452.7684584,
+      "size": 101593
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-a9b6e59e74b21435c.jsonl": {
+      "mtime": 1773330303.6963952,
+      "size": 112464
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-acompact-75f1092e9b2ccb79.jsonl": {
+      "mtime": 1773348007.3874524,
+      "size": 1440233
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-ae45c455aa5c19b37.jsonl": {
+      "mtime": 1773357198.9178889,
+      "size": 112594
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-aside_question-1c755d4eb275fa34.jsonl": {
+      "mtime": 1773327999.157548,
+      "size": 248666
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-CC---CAI-sync/f8a1fd77-f97a-45b5-8717-c1e82ab2dbfb/subagents/agent-aside_question-7b325839273d226d.jsonl": {
+      "mtime": 1773347451.5439215,
+      "size": 1114112
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/1729a3fc-a9f4-4b61-b572-b62cda0798c9/subagents/agent-a85e075.jsonl": {
+      "mtime": 1768072667.8230789,
+      "size": 1212
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/1729a3fc-a9f4-4b61-b572-b62cda0798c9/subagents/agent-af4288e.jsonl": {
+      "mtime": 1768072671.1535633,
+      "size": 1636
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/1729a3fc-a9f4-4b61-b572-b62cda0798c9/subagents/agent-af8bb79.jsonl": {
+      "mtime": 1768072668.148061,
+      "size": 1507
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/ecd704bd-1675-461f-9fd8-5358379d1f02/subagents/agent-a010f33.jsonl": {
+      "mtime": 1768070613.266719,
+      "size": 1213
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/ecd704bd-1675-461f-9fd8-5358379d1f02/subagents/agent-a2b6afc.jsonl": {
+      "mtime": 1768070615.9653363,
+      "size": 1878
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Documents/ecd704bd-1675-461f-9fd8-5358379d1f02/subagents/agent-aac7b99.jsonl": {
+      "mtime": 1768070613.598105,
+      "size": 1859
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a154c6ff66263e8cd.jsonl": {
+      "mtime": 1773096146.6655467,
+      "size": 273087
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a2aae197c2b66a1e6.jsonl": {
+      "mtime": 1773095837.6161509,
+      "size": 63572
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a2b2b7cc061fe2406.jsonl": {
+      "mtime": 1773030980.935534,
+      "size": 300833
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a37e1053931e5e711.jsonl": {
+      "mtime": 1773102343.9409153,
+      "size": 63849
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a46421e9a117976de.jsonl": {
+      "mtime": 1773095338.7292671,
+      "size": 39505
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a5651251112be929e.jsonl": {
+      "mtime": 1773030707.2470548,
+      "size": 277551
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a8732d3876b4036f0.jsonl": {
+      "mtime": 1773095837.4170465,
+      "size": 22715
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a8d53342ee4a41942.jsonl": {
+      "mtime": 1773097377.3515425,
+      "size": 124428
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-a91e51ac5ca248326.jsonl": {
+      "mtime": 1773097366.2942023,
+      "size": 78268
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-aa0c6448edbb0f6d9.jsonl": {
+      "mtime": 1773102370.8347468,
+      "size": 72650
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-aa26f46dbb61e14a0.jsonl": {
+      "mtime": 1773102341.0963454,
+      "size": 56054
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-aa290c088135c4395.jsonl": {
+      "mtime": 1773095555.1378212,
+      "size": 335200
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-aaa9d147d8ab6b86f.jsonl": {
+      "mtime": 1773095892.1416836,
+      "size": 65065
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-ac6be12cb480cb45b.jsonl": {
+      "mtime": 1773102391.2768373,
+      "size": 29122
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-13c5d0839b44227d.jsonl": {
+      "mtime": 1773100356.6308422,
+      "size": 855062
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-210a78a6acb60966.jsonl": {
+      "mtime": 1773095679.1460187,
+      "size": 1410742
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-3fa6fd33eb0c73a0.jsonl": {
+      "mtime": 1773097644.8207934,
+      "size": 1795484
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-bdbfc5684a8cfec7.jsonl": {
+      "mtime": 1773070814.3603492,
+      "size": 1858970
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-d8fcdd739b7dec5f.jsonl": {
+      "mtime": 1773076333.7328029,
+      "size": 1022194
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-acompact-f141f99bb8da05e2.jsonl": {
+      "mtime": 1773105021.7322147,
+      "size": 1051504
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-ad97b9b0366e612ae.jsonl": {
+      "mtime": 1773095285.0401454,
+      "size": 42405
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-af31ddede4c6ba938.jsonl": {
+      "mtime": 1773092770.72107,
+      "size": 268438
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/424bf9b0-5092-4a8c-b474-79b993186924/subagents/agent-af3f1685235008bb2.jsonl": {
+      "mtime": 1773030735.9861069,
+      "size": 265249
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/5afec14f-fa2f-4341-82de-10f8803d8848/subagents/agent-acompact-b4d7792b47c95597.jsonl": {
+      "mtime": 1773148969.7703316,
+      "size": 675574
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/03284904-c164-4342-a7eb-fe819034d2e3/subagents/agent-a34c43d.jsonl": {
+      "mtime": 1768252604.243873,
+      "size": 4611
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/03284904-c164-4342-a7eb-fe819034d2e3/subagents/agent-ac5ecf8.jsonl": {
+      "mtime": 1768252604.4031737,
+      "size": 2186
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/03284904-c164-4342-a7eb-fe819034d2e3/subagents/agent-ae6970c.jsonl": {
+      "mtime": 1768252603.5543606,
+      "size": 2984
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/1c06734d-984c-40b0-904b-bc7b924a6a6b/subagents/agent-a247e0e.jsonl": {
+      "mtime": 1768213577.830357,
+      "size": 4565
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/1c06734d-984c-40b0-904b-bc7b924a6a6b/subagents/agent-a8d9983.jsonl": {
+      "mtime": 1768213575.045316,
+      "size": 1264
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/1c06734d-984c-40b0-904b-bc7b924a6a6b/subagents/agent-afce211.jsonl": {
+      "mtime": 1768213575.8963392,
+      "size": 1750
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/2a4a7927-2be0-4b1a-b708-77eb12f300a4/subagents/agent-a6d6c21.jsonl": {
+      "mtime": 1768250160.4081886,
+      "size": 314777
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/2a4a7927-2be0-4b1a-b708-77eb12f300a4/subagents/agent-a845fbb.jsonl": {
+      "mtime": 1768248065.8239648,
+      "size": 365554
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/94eb43bb-2a3c-4be0-9e13-bcf646e20d20/subagents/agent-a2dc00a.jsonl": {
+      "mtime": 1768253122.145839,
+      "size": 278775
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/94eb43bb-2a3c-4be0-9e13-bcf646e20d20/subagents/agent-a2e44d6.jsonl": {
+      "mtime": 1768253103.6808481,
+      "size": 282454
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/94eb43bb-2a3c-4be0-9e13-bcf646e20d20/subagents/agent-a3889b7.jsonl": {
+      "mtime": 1768253702.2845457,
+      "size": 434446
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/e5c0b2d4-2b50-41b6-bc65-f69acecd7c8f/subagents/agent-a2912c0.jsonl": {
+      "mtime": 1768252418.6445124,
+      "size": 4624
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/e5c0b2d4-2b50-41b6-bc65-f69acecd7c8f/subagents/agent-a3afd1e.jsonl": {
+      "mtime": 1768252417.7964883,
+      "size": 2035
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-MCPs-gmail-multi-user-dev-mcp-Basic/e5c0b2d4-2b50-41b6-bc65-f69acecd7c8f/subagents/agent-a3e3615.jsonl": {
+      "mtime": 1768252417.5973654,
+      "size": 3017
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/634e3d65-af0e-4e82-a175-5f08db9fd2c2/subagents/agent-adf9c1b0509e87b83.jsonl": {
+      "mtime": 1773530270.2889624,
+      "size": 9873
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/634e3d65-af0e-4e82-a175-5f08db9fd2c2/subagents/agent-ae7bfdb46da88ac18.jsonl": {
+      "mtime": 1773528864.078313,
+      "size": 41846
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/265be91b-d603-448b-af82-ca46656ad98e/subagents/agent-a6bd2f8e05fb954f1.jsonl": {
+      "mtime": 1773529721.5775237,
+      "size": 27132
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a12466aa44add6142.jsonl": {
+      "mtime": 1773519164.8380568,
+      "size": 25667
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a2ea3d24c5976b773.jsonl": {
+      "mtime": 1773519144.9404087,
+      "size": 62721
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a7c4003f9f8dda655.jsonl": {
+      "mtime": 1773527703.8866591,
+      "size": 107784
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a81f9521aa0e5b45c.jsonl": {
+      "mtime": 1773527663.7163444,
+      "size": 112921
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a967d39d4c26d9ec2.jsonl": {
+      "mtime": 1773527672.5953672,
+      "size": 117867
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-a9cac1df8e1693027.jsonl": {
+      "mtime": 1773519155.0167875,
+      "size": 25875
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/c3d7019e-8752-4a56-9cb4-a775d997e699/subagents/agent-aa17b9c0da0d2e107.jsonl": {
+      "mtime": 1773526060.172333,
+      "size": 100480
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/b946380d-6c4c-4c18-9e8d-6e5004b719b8/subagents/agent-acompact-eddd422903b6e6d6.jsonl": {
+      "mtime": 1773098238.0095139,
+      "size": 495919
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/c1c5e4e3-2569-4eee-9cc2-e7baa61d4b8b/subagents/agent-a04feebffda174b96.jsonl": {
+      "mtime": 1773373687.1906137,
+      "size": 180351
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/c1c5e4e3-2569-4eee-9cc2-e7baa61d4b8b/subagents/agent-acompact-7a539b7230bb1bad.jsonl": {
+      "mtime": 1773374232.967741,
+      "size": 1907610
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/ef6092db-1989-4bf5-8e34-3f3007b7d655/subagents/agent-ac5aad966f9a7ea75.jsonl": {
+      "mtime": 1773147654.5813024,
+      "size": 119817
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Cash-Build-System/ef6092db-1989-4bf5-8e34-3f3007b7d655/subagents/agent-acompact-ab8da41faa27babb.jsonl": {
+      "mtime": 1773161722.8437705,
+      "size": 1378118
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Interview-Cash/2661d22c-a78a-40df-a4dc-09e358056df3/subagents/agent-a6792d90681cc7b31.jsonl": {
+      "mtime": 1773375513.9072871,
+      "size": 194575
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Interview-Cash/2661d22c-a78a-40df-a4dc-09e358056df3/subagents/agent-ade95806ff78c5487.jsonl": {
+      "mtime": 1773377593.1588538,
+      "size": 47642
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Mailing-Skill/ae990927-a9c5-45f9-907e-d07ac899539e/subagents/agent-a1efdcf.jsonl": {
+      "mtime": 1768039091.6635368,
+      "size": 1257
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Mailing-Skill/ae990927-a9c5-45f9-907e-d07ac899539e/subagents/agent-a7c98a2.jsonl": {
+      "mtime": 1768054249.7119942,
+      "size": 72256
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Mailing-Skill/ae990927-a9c5-45f9-907e-d07ac899539e/subagents/agent-ab74e42.jsonl": {
+      "mtime": 1768039092.4660158,
+      "size": 1779
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory-Mailing-Skill/ae990927-a9c5-45f9-907e-d07ac899539e/subagents/agent-ae477d1.jsonl": {
+      "mtime": 1768039098.5597463,
+      "size": 4274
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-a1d183d6325e686c9.jsonl": {
+      "mtime": 1772141858.0139883,
+      "size": 149634
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-a40cf2c4df18a465a.jsonl": {
+      "mtime": 1772151752.9139833,
+      "size": 207242
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-a54e7f69776925670.jsonl": {
+      "mtime": 1772125234.5367868,
+      "size": 5542
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-a6a2cff40bbf35204.jsonl": {
+      "mtime": 1772142858.6056244,
+      "size": 180144
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-a84db04fb12e86e32.jsonl": {
+      "mtime": 1772159457.8856175,
+      "size": 19486
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-ab59a7f3974bdd133.jsonl": {
+      "mtime": 1772141943.5943584,
+      "size": 154435
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-017bfdd1a81f9363.jsonl": {
+      "mtime": 1772139779.126521,
+      "size": 53249
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-096fd286948bfa10.jsonl": {
+      "mtime": 1772125522.4552636,
+      "size": 18779
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-2c26a7edc270a39d.jsonl": {
+      "mtime": 1772147827.9616222,
+      "size": 51860
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-3b8fbe9f339c0639.jsonl": {
+      "mtime": 1772130286.2758422,
+      "size": 37453
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-3d014659edc8ca32.jsonl": {
+      "mtime": 1772143737.0059228,
+      "size": 34514
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-43b6eaa8afdc22b9.jsonl": {
+      "mtime": 1772151144.3186932,
+      "size": 40977
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-44321c5fba9a594c.jsonl": {
+      "mtime": 1772161228.9100919,
+      "size": 72068
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-45332f2940ad4ac4.jsonl": {
+      "mtime": 1772141512.714013,
+      "size": 27822
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-6adbc66b1a310158.jsonl": {
+      "mtime": 1772154778.608874,
+      "size": 28825
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-dd266888e7abc754.jsonl": {
+      "mtime": 1772157920.5176973,
+      "size": 36221
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-e1c61310ed2d15fb.jsonl": {
+      "mtime": 1772145129.1950169,
+      "size": 27114
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-acompact-fcf6feaba74dd680.jsonl": {
+      "mtime": 1772133923.783424,
+      "size": 24645
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-openclaw-setup/65dda3a4-b655-4a2f-af39-8e5b2919b095/subagents/agent-ad1f6feed01fcf2b1.jsonl": {
+      "mtime": 1772156192.9081001,
+      "size": 92422
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Projects/ceaf3cc9-05ae-4058-8c9a-c4946d3cd39b/subagents/agent-a15966b.jsonl": {
+      "mtime": 1767929588.649795,
+      "size": 70054
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Projects/ceaf3cc9-05ae-4058-8c9a-c4946d3cd39b/subagents/agent-a5ab995.jsonl": {
+      "mtime": 1767929583.0196457,
+      "size": 85215
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Projects/ceaf3cc9-05ae-4058-8c9a-c4946d3cd39b/subagents/agent-a5fbe36.jsonl": {
+      "mtime": 1767929198.1710458,
+      "size": 1180
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Projects/ceaf3cc9-05ae-4058-8c9a-c4946d3cd39b/subagents/agent-a63cc67.jsonl": {
+      "mtime": 1767929201.7842257,
+      "size": 1969
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Projects/ceaf3cc9-05ae-4058-8c9a-c4946d3cd39b/subagents/agent-acb9c3a.jsonl": {
+      "mtime": 1767929198.4895,
+      "size": 2038
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/0f288bfc-d172-468d-8536-25da67842e22/subagents/agent-a32e992.jsonl": {
+      "mtime": 1768228168.2276373,
+      "size": 5734
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/0f288bfc-d172-468d-8536-25da67842e22/subagents/agent-a935dbf.jsonl": {
+      "mtime": 1768229476.2686756,
+      "size": 257042
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/0f288bfc-d172-468d-8536-25da67842e22/subagents/agent-aa1fcbb.jsonl": {
+      "mtime": 1768228167.9638894,
+      "size": 1816
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/0f288bfc-d172-468d-8536-25da67842e22/subagents/agent-ad17735.jsonl": {
+      "mtime": 1768228167.4757266,
+      "size": 2776
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/19f425e8-b987-4439-9aa3-a9758249d2fd/subagents/agent-a3c8e68.jsonl": {
+      "mtime": 1768245621.6904154,
+      "size": 5828
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/19f425e8-b987-4439-9aa3-a9758249d2fd/subagents/agent-add7dac.jsonl": {
+      "mtime": 1768245619.8810353,
+      "size": 1694
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-docsend-deck-extractor/19f425e8-b987-4439-9aa3-a9758249d2fd/subagents/agent-af44b54.jsonl": {
+      "mtime": 1768245825.9253576,
+      "size": 1420
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/73db83fc-bf39-4c0f-becd-8142d3344bb4.jsonl": {
+      "mtime": 1773544064.9929535,
+      "size": 687757
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/cafabb7a-f777-4769-952f-fdc4cf0b168b.jsonl": {
+      "mtime": 1773543593.6477556,
+      "size": 2011762
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/a6e6e493-1c48-4edf-b6c8-e8b1d2e7e9a7.jsonl": {
+      "mtime": 1773547645.3513482,
+      "size": 1271592
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/cacde610-b780-4516-97eb-168a139092c6.jsonl": {
+      "mtime": 1773550098.6859565,
+      "size": 5280869
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/73db83fc-bf39-4c0f-becd-8142d3344bb4/subagents/agent-a1bfcc08da4e5d4f0.jsonl": {
+      "mtime": 1773540653.8831131,
+      "size": 286137
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/73db83fc-bf39-4c0f-becd-8142d3344bb4/subagents/agent-a9c53f4c99abd0e51.jsonl": {
+      "mtime": 1773541555.3001597,
+      "size": 207253
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/cafabb7a-f777-4769-952f-fdc4cf0b168b/subagents/agent-a121052672f71c713.jsonl": {
+      "mtime": 1773535837.1097918,
+      "size": 54829
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/cafabb7a-f777-4769-952f-fdc4cf0b168b/subagents/agent-a3f89466928b78c70.jsonl": {
+      "mtime": 1773536697.0149343,
+      "size": 64103
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/cafabb7a-f777-4769-952f-fdc4cf0b168b/subagents/agent-a862fd7b1f4011797.jsonl": {
+      "mtime": 1773539530.2062604,
+      "size": 152298
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/634e3d65-af0e-4e82-a175-5f08db9fd2c2/subagents/agent-a496f85347c732e15.jsonl": {
+      "mtime": 1773542145.6275964,
+      "size": 231820
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/bc163fa6-a7f3-4f6c-b252-aca3b7296ca1.jsonl": {
+      "mtime": 1773545305.5615406,
+      "size": 86782
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/df610d9d-41d7-4711-8a35-83318e43bf9f.jsonl": {
+      "mtime": 1773548274.0724847,
+      "size": 39032
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Flight-Mode/89f92bdd-2155-42e4-a31b-b18c9e2ec515.jsonl": {
+      "mtime": 1773546702.3822322,
+      "size": 67073
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156.jsonl": {
+      "mtime": 1773549353.5829868,
+      "size": 1501265
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/195b27cb-8038-4890-a046-14667a20ae84.jsonl": {
+      "mtime": 1773550081.4305236,
+      "size": 409423
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects/bc163fa6-a7f3-4f6c-b252-aca3b7296ca1/subagents/agent-a0d930766ec34dd9e.jsonl": {
+      "mtime": 1773544688.3891864,
+      "size": 10106
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156/subagents/agent-a121865664a4fa501.jsonl": {
+      "mtime": 1773548120.329491,
+      "size": 50596
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156/subagents/agent-a46f2874c5a466930.jsonl": {
+      "mtime": 1773547301.2978742,
+      "size": 83896
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156/subagents/agent-ac511f97059342b22.jsonl": {
+      "mtime": 1773545095.0352924,
+      "size": 94269
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156/subagents/agent-ae02fa6119f3b8335.jsonl": {
+      "mtime": 1773545321.2330384,
+      "size": 24000
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Learn-From/fc1c2444-f59c-4fee-9644-4a28f571d156/subagents/agent-ae55c093a37f7bc1c.jsonl": {
+      "mtime": 1773543982.066416,
+      "size": 2217021
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/a6e6e493-1c48-4edf-b6c8-e8b1d2e7e9a7/subagents/agent-aa2756bb8589ff3dd.jsonl": {
+      "mtime": 1773546402.068209,
+      "size": 56613
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/a6e6e493-1c48-4edf-b6c8-e8b1d2e7e9a7/subagents/agent-ac5d5fbd3897e8a5e.jsonl": {
+      "mtime": 1773546398.0416377,
+      "size": 232371
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-QMD-and-CC-Workflow-Enrichment/a6e6e493-1c48-4edf-b6c8-e8b1d2e7e9a7/subagents/agent-af3c56367a5d441c6.jsonl": {
+      "mtime": 1773545618.5493383,
+      "size": 268766
+    },
+    "/Users/Aakash/.claude/projects/-Users-Aakash-Claude-Projects-Skills-Factory/cacde610-b780-4516-97eb-168a139092c6/subagents/agent-acompact-05930163d44c5d25.jsonl": {
+      "mtime": 1773546825.9645767,
+      "size": 2302455
+    }
+  },
+  "last_run": "2026-03-15T04:48:18.805095+00:00"
+}

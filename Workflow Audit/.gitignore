@@ -1,0 +1,11 @@
+ROADMAP.md
+preprocessed/
+reports/
+visualizations/
+
+# CC↔CAI sync — tracked (override .claude/ ignore if present)
+!.claude/sync/
+!.claude/sync/**
+# CC↔CAI sync internal (not tracked)
+.claude/sync/.last-push
+ROADMAP.md

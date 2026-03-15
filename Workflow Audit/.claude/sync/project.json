@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "name": "qmd-and-cc-workflow-enrichment",
+  "display_name": "QMD and CC Workflow Enrichment",
+  "description": "A local search + analysis system built on qmd that indexes all Claude Code data and provides semantic search, workflow audit, and visualization tools.",
+  "category": "tools",
+  "zone": "build",
+  "tags": ["python", "shell", "qmd", "semantic-search", "workflow-audit"],
+  "sync_enabled": true
+}

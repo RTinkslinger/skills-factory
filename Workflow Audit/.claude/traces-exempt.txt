@@ -1,0 +1,7 @@
+# Files exempt from TRACES.md enforcement.
+# These are files that stop-check.sh tells you to update,
+# so they can't also trigger the "update TRACES" reminder.
+# Add project-specific exemptions below (one filename per line).
+TRACES.md
+LEARNINGS.md
+ROADMAP.md

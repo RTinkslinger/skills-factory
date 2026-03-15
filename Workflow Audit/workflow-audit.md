@@ -11,10 +11,10 @@ description: >
 
 **Usage:** `/workflow-audit [--no-llm] [--reindex]`
 
-**Project directory:** /Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment
-**Scripts:** /Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/scripts/
-**Reports:** /Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/reports/
-**State:** /Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/state/
+**Project directory:** /Users/Aakash/Claude Projects/Skills Factory/Workflow Audit
+**Scripts:** /Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/scripts/
+**Reports:** /Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/reports/
+**State:** /Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/state/
 
 ## Flags
 
@@ -33,7 +33,7 @@ qmd status 2>/dev/null | head -5
 
 If qmd shows 0 documents or isn't installed, tell the user to run setup first:
 ```bash
-cd "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment"
+cd "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit"
 ./scripts/reindex.sh
 ```
 
@@ -42,7 +42,7 @@ cd "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment"
 Read the audit history to determine if this is a first run or differential run:
 
 ```bash
-cat "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/state/audit-history.json" 2>/dev/null
+cat "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/state/audit-history.json" 2>/dev/null
 ```
 
 If history exists, note the last run date and finding count for comparison.
@@ -52,7 +52,7 @@ If history exists, note the last run date and finding count for comparison.
 If `--reindex` was passed, or if the user hasn't re-indexed in the current session:
 
 ```bash
-cd "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment"
+cd "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit"
 ./scripts/reindex.sh --incremental
 ```
 
@@ -61,7 +61,7 @@ This preprocesses any new conversation JSONLs and updates the qmd index.
 ## Step 4: Run the Audit
 
 ```bash
-cd "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment"
+cd "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit"
 python3 scripts/workflow-audit.py --report-only
 ```
 
@@ -84,7 +84,7 @@ The audit runs 10 dimensions:
 Read the generated report:
 
 ```bash
-cat "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/reports/audit-$(date +%Y-%m-%d).md"
+cat "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/reports/audit-$(date +%Y-%m-%d).md"
 ```
 
 Present to the user:
@@ -114,7 +114,7 @@ The audit engine saves state automatically to `state/audit-history.json`.
 Verify it was saved:
 
 ```bash
-cat "/Users/Aakash/Claude Projects/QMD and CC Workflow Enrichment/state/audit-history.json" | python3 -c "import sys,json; h=json.load(sys.stdin); print(f'Run #{h[\"run_count\"]} saved. Last: {h[\"last_run\"]}')"
+cat "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit/state/audit-history.json" | python3 -c "import sys,json; h=json.load(sys.stdin); print(f'Run #{h[\"run_count\"]} saved. Last: {h[\"last_run\"]}')"
 ```
 
 ## Step 8: Suggest Next Audit

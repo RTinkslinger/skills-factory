@@ -16,3 +16,9 @@ FLIGHT_MODE.md
 .flight-state-*.md
 ROADMAP.md
 .mcp.json
+
+# Workflow Audit generated data
+Workflow Audit/preprocessed/
+Workflow Audit/reports/
+Workflow Audit/visualizations/
+Workflow Audit/ROADMAP.md
