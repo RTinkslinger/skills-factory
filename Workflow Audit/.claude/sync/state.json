@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "name": "workflow-audit",
+    "display_name": "Workflow Audit",
+    "path": "/Users/Aakash/Claude Projects/Skills Factory/Workflow Audit"
+  },
+  "state": {
+    "status": "active",
+    "last_session": {
+      "timestamp": "2026-03-15T04:52:31Z",
+      "summary": "CC↔CAI sync initialized alongside Cash Build System setup."
+    },
+    "current_tasks": [],
+    "recent_decisions": [],
+    "next_session_priorities": [
+      "Begin Phase 1: QMD Foundation — install qmd, preprocess JSONLs, create collections, embed"
+    ],
+    "pending_inbox": [],
+    "key_files_changed_last_session": [
+      ".gitignore",
+      "Audit/workflow-audit.md\"",
+      "System/roadmap-enforcement-gaps.md\"",
+      "MIGRATION-PLAN-QMD.md",
+      "Audit/.claude/\"",
+      "Audit/.gitignore\"",
+      "Audit/CLAUDE.md\"",
+      "Audit/LEARNINGS.md\"",
+      "Audit/QMD-READY-RECKONER.md\"",
+      "Audit/TRACES.md\""
+    ]
+  },
+  "architecture": {
+    "summary": "Local search + analysis system using qmd for indexing Claude Code artifacts. Python/shell scripts for preprocessing, audit engine, and reindexing. Generates reports and HTML visualizations.",
+    "stack": [
+      "python",
+      "shell",
+      "qmd"
+    ]
+  },
+  "updated_at": "2026-03-15T04:52:31Z",
+  "updated_by": "cc"
+}
