@@ -3,8 +3,8 @@
 > Make CC, CAI, and custom agents use the web as well as a human — unhindered, programmatic, best-in-class.
 
 **Date:** 2026-03-14
-**Status:** Draft (Pass 2 review fixes applied)
-**Review history:** Pass 1 (subagent reviewer), Pass 2 (systems architect) — see `docs/superpowers/specs/2026-03-14-design-review-pass-2.md`
+**Status:** Draft (Pass 3 review fixes applied)
+**Review history:** Pass 1 (subagent reviewer), Pass 2 (systems architect), Pass 3 (triple-lens: architect + QA + DevOps) — see `docs/superpowers/specs/2026-03-14-design-review-pass-3-consolidated.md`
 **Projects involved:** Skills Factory (primary), AI CoS CC ADK (consumer + integration), global CC config (~/.claude/)
 
 ---
@@ -48,7 +48,7 @@ LAYER 2: SPECIALIST SKILLS
   Each specialist:
     Focused domain expertise (anti-drift via narrow scope)
     Environment-aware (different tool paths per surface)
-    5-dimension tool selection reasoning (see Section 4)
+    6-dimension tool selection reasoning (see Section 4)
     Observability: logs tool selection, reasoning, outcomes
     Fallback chains built into expertise, not hardcoded
 
@@ -148,8 +148,10 @@ Don't force shared architecture. Each environment gets the best implementation f
 ### Configuration Summary
 
 **New tools to configure globally (~/.mcp.json):**
-- Chrome DevTools MCP: `npx -y chrome-devtools-mcp@latest`
-- Firecrawl MCP: `npx -y firecrawl-mcp` (needs FIRECRAWL_API_KEY)
+- Chrome DevTools MCP: `npx -y chrome-devtools-mcp@<pinned-version>` (pin version — never `@latest` in production)
+- Firecrawl MCP: `npx -y firecrawl-mcp@<pinned-version>` (needs FIRECRAWL_API_KEY, pin version)
+
+**Version pinning policy:** All MCP servers in `~/.mcp.json` must use pinned versions (e.g., `@1.2.3`), not `@latest`. Update versions intentionally — unpinned versions break without warning when upstream publishes breaking changes.
 
 **New tools to evaluate and potentially configure:**
 - browser-use MCP server: `pip install browser-use-mcp-server` (needs evaluation)
@@ -164,7 +166,7 @@ Don't force shared architecture. Each environment gets the best implementation f
 
 ## 4. Tool Selection Decision Framework
 
-Specialist skills don't hardcode tool choices. They reason across five dimensions per task:
+Specialist skills don't hardcode tool choices. They reason across six dimensions per task:
 
 ### Dimension 1: Speed Requirement
 
@@ -215,6 +217,29 @@ Specialist skills don't hardcode tool choices. They reason across five dimension
 | Background autonomous | browser-use cloud | Parallel execution, managed infra |
 | Simple page read | WebFetch or Firecrawl | Minimal tokens, clean output |
 
+### Dimension 6: Output Format / Consumer Type
+
+| Output Need | Best Tool(s) | Why |
+|---|---|---|
+| Structured JSON (typed fields) | Firecrawl extract (schema mode), Stagehand extract() | Schema-driven extraction, typed output |
+| Clean markdown (readable prose) | Firecrawl scrape, Jina Reader, WebFetch | Optimized for clean text output |
+| Raw HTML (DOM preservation) | Playwright page.content(), Chrome DevTools MCP | Full DOM when structure matters |
+| Visual / screenshot | Playwright screenshot, Chrome DevTools MCP | Visual evidence, screenshot comparison |
+| Streaming (real-time) | browser-use (live observation), Computer Use API | Progressive output as task runs |
+
+### Dimension Conflict Resolution
+
+When dimensions contradict (e.g., hostile site + sub-second speed), resolve using this priority order:
+
+1. **Auth Safety** (highest) — never compromise real user sessions
+2. **Site Hostility** — match evasion to detection level
+3. **Task Complexity** — use tools that handle the required steps
+4. **Output Format** — match consumer expectations
+5. **Speed** — optimize within constraints above
+6. **Cost** (lowest) — minimize only after other dimensions are satisfied
+
+**Hard constraints win over soft preferences.** Auth Safety and Site Hostility are hard constraints — they eliminate tools from consideration. Speed and Cost are soft preferences — they rank remaining options. If a dimension eliminates ALL tools, escalate to the user.
+
 ### Combination Principle
 
 A single task may use multiple tools in sequence:
@@ -246,6 +271,7 @@ dimensions:
   hostility: moderate
   auth: none
   complexity: single
+  output_format: clean-markdown
   cost: low
 tool_selected: firecrawl
 reasoning: "no auth, structured extraction, Firecrawl agent mode ideal"
@@ -253,6 +279,11 @@ fallback_used: false
 outcome: success
 latency_ms: 3200
 tokens_used: 450
+failure:                    # present only when outcome != success
+  primary_error: "403 Forbidden"
+  fallback_chain: ["firecrawl → stagehand → browser-use"]
+  first_success_at: "browser-use"  # null if all failed
+  graceful_degradation: "returned cached data from previous scrape"
 ```
 
 **Log storage:**
@@ -262,6 +293,8 @@ tokens_used: 450
 | CC | Append-only YAML files | `~/.claude/web-logs/{specialist}-{YYYY-MM}.yml` | Persists across sessions. Monthly rotation. |
 | Agent SDK (droplet) | SQLite | `/opt/ai-cos-mcp/web-logs.db` | Table: `tool_logs(id, timestamp, specialist, task, environment, dimensions_json, tool_selected, reasoning, fallback_used, outcome, latency_ms, tokens_used)` |
 | CAI | Not logged locally | Via MCP tool if ai-cos-mcp has logging endpoint | Stored on droplet if MCP-based |
+
+**Degradation principle:** Logging is best-effort. Never block the primary task for observability. If log file is unwritable, log to stderr and continue. If YAML serialization fails, write raw text. Observability failure must never cause task failure.
 
 **In CC:** After each web operation, the specialist appends a YAML entry to the log file. Bash tool writes the entry. This is the raw data the learning loop needs.
 
@@ -288,6 +321,22 @@ tokens_used: 450
 
 **What it does NOT do:** Execute web tasks. No browser interactions. No data extraction. Pure routing.
 
+**Composite task classification:** Many user requests span multiple specialists. The router classifies composite tasks and loads the right combination of reference docs (max 3 per task to stay within context budget):
+
+| Composite Pattern | Example | Reference Docs Loaded |
+|---|---|---|
+| Auth + Browse | "Log into LinkedIn and check my messages" | auth, browse |
+| Browse + Scrape | "Go to the pricing page and extract all plans" | browse, scrape |
+| Auth + Browse + Scrape | "Log into Notion and extract my task list" | auth, browse, scrape |
+| Search + Scrape | "Find competitor pricing pages and extract data" | search (routes), scrape |
+| Auth + Watch | "Monitor my portfolio on [site] for changes" | auth, watch (watch delegates to browse/scrape) |
+| QA + Perf | "Full audit of localhost:3000" | qa, perf-audit |
+| Browse + Scrape + Watch | "Monitor competitor pricing with login" | auth, watch, scrape |
+
+**Rule:** If a task needs >3 specialists, decompose into sequential sub-tasks. The router logs composite classification alongside routing decisions.
+
+**Scaling ceiling:** The router is designed for up to 10 specialists. If specialist count exceeds 10, decompose into sub-routers (e.g., `web-browse-router`, `web-data-router`) with the master router dispatching to sub-routers. This is a future concern — current count is 8+1.
+
 **Activation model:** web-router is the **sole entry point** for all web tasks in CC. It is the ONLY SKILL.md registered in `~/.claude/skills/web-router/`. Specialist knowledge lives as **reference docs** inside `~/.claude/skills/web-router/references/`:
 
 ```
@@ -301,7 +350,7 @@ tokens_used: 450
     auth.md             ← session management & layered auth
     perf-audit.md       ← Core Web Vitals & performance
     watch.md            ← monitoring & change detection
-    tool-selection.md   ← 5-dimension decision framework
+    tool-selection.md   ← 6-dimension decision framework
 ```
 
 **Why not separate skills:** CC's skill system activates ALL skills with matching triggers simultaneously. There is no trigger shadowing or skill-invokes-skill mechanism. If browse, scrape, and web-router all trigger on "go to website", Claude sees three conflicting skill instructions. Reference docs inside the router's directory eliminate this — the router loads the appropriate reference based on task classification.
@@ -327,7 +376,7 @@ tokens_used: 450
 **Triggers:** "go to", "navigate to", "open", "click", "fill", "log in", "interact with", "browse"
 
 **Expertise encodes:**
-- The 5-dimension tool selection framework (Section 4) applied to browsing tasks
+- The 6-dimension tool selection framework (Section 4) applied to browsing tasks
 - When to use headless vs native Chrome vs Browserbase isolated sessions
 - How to handle dynamic content (SPAs, lazy loading, infinite scroll)
 - How to verify actions succeeded (screenshot, DOM check, console errors)
@@ -336,7 +385,7 @@ tokens_used: 450
 **Tool palette:** Playwright MCP, Chrome DevTools MCP, Stagehand, browser-use, Browserbase, Computer Use API
 
 **Environment paths:**
-- CC: Full palette. Prefers Playwright for deterministic single-action ops, Stagehand for repeatable flows (auto-caches after first run), browser-use for autonomous multi-step with unknown flows. Tool selection per 5-dimension framework, not hardcoded preferences.
+- CC: Full palette. Prefers Playwright for deterministic single-action ops, Stagehand for repeatable flows (auto-caches after first run), browser-use for autonomous multi-step with unknown flows. Tool selection per 6-dimension framework, not hardcoded preferences.
 - CAI: Playwright MCP or Chrome DevTools MCP via remote connector. Limited to MCP-accessible operations.
 - Agent SDK: Full palette + Computer Use API as fallback. Can install Chrome on VM.
 
@@ -370,7 +419,7 @@ tokens_used: 450
 - CAI: Firecrawl MCP via remote connector. WebFetch for simple pages.
 - Agent SDK: All tools + direct Firecrawl API for bulk operations.
 
-**Boundary principle:** Scrape handles EXTRACTION LOGIC only. When a scraping task requires navigation (clicking pagination, filling search forms, scrolling to load more, logging in), scrape ALWAYS delegates to browse. Clean separation: browse = interaction with the page, scrape = pulling data out of the page. This prevents both specialists from duplicating navigation logic and ensures the 5-dimension tool selection for navigation happens in one place (browse).
+**Boundary principle:** Scrape handles EXTRACTION LOGIC only. When a scraping task requires navigation (clicking pagination, filling search forms, scrolling to load more, logging in), scrape ALWAYS delegates to browse. Clean separation: browse = interaction with the page, scrape = pulling data out of the page. This prevents both specialists from duplicating navigation logic and ensures the 6-dimension tool selection for navigation happens in one place (browse).
 
 **Key patterns:**
 - "Schema extraction": user provides desired fields → skill selects extraction tool → returns typed JSON
@@ -467,12 +516,13 @@ tokens_used: 450
 ```
 LOCAL MAC (cron job, e.g. daily or on-demand)
   ├── Extract cookies from real browser (Safari/Chrome/Arc)
-  │   Method: yt-dlp --cookies-from-browser safari --cookies /tmp/cookies.txt
+  │   Method: Production cookie extraction tool (see Phase 0 evaluation)
   │   Or: browser-specific cookie extraction tool
   ├── Filter to relevant domains (not all cookies)
+  ├── Stage to ~/.ai-cos/cookies/ (chmod 600, NEVER /tmp/)
   ├── Encrypt in transit
   └── Push to droplet via rsync over Tailscale
-       rsync /tmp/cookies.txt root@aicos-droplet:/opt/ai-cos-mcp/cookies/
+       rsync ~/.ai-cos/cookies/ root@aicos-droplet:/opt/ai-cos-mcp/cookies/
 
 DROPLET
   ├── Receives cookie files per-domain
@@ -495,6 +545,8 @@ DROPLET
 
 **Auth service registry:**
 Discovered per-service auth strategies are documented in `Web & Browsers/auth/auth-service-registry.md` — a living document updated as new services are onboarded. Format: `| Service | Best Layer | Notes | Last Verified |`
+
+**Staleness detection:** The auth skill checks the `Last Verified` date before using any registry strategy. Thresholds: cookies >30 days = stale (re-extract), API keys >90 days = review (may still be valid but check), OAuth tokens = auto-refresh (no manual staleness). Stale entries are flagged to the user before proceeding. The skill can still use a stale strategy with a warning, but never silently.
 
 **Safety principles:**
 - Never store raw credentials in skill files. Env vars and vault references only.
@@ -723,20 +775,44 @@ The AI CoS runs on a DigitalOcean droplet (Ubuntu 24.04). Currently: ContentAgen
 - Install Node.js MCP servers (Chrome DevTools MCP, Firecrawl MCP)
 - Optionally: Stagehand, browser-use (Python)
 
-**MCP server extensions:**
-- Current ai-cos-mcp (17 tools) may need new tools for web operations
-- Or: separate MCP servers for web tools, co-located on droplet
-- Architecture decision: extend ai-cos-mcp vs separate web-tools MCP
+**MCP server architecture (DECIDED):**
+- **Separate web-tools MCP process** on droplet. Chrome must NOT share a process with ai-cos-mcp.
+- Rationale: Fault isolation — Chrome crash/OOM must not kill Notion/calendar/thesis tools.
+- web-tools MCP runs as its own systemd service alongside ai-cos-mcp.
+- Simple web tools (URL extraction, search) may still be added to ai-cos-mcp for convenience.
+- Browser-dependent operations (Playwright, Stagehand, browser-use) always go through web-tools MCP.
 
 **Resource considerations:**
 - Headless Chrome needs ~100-300MB RAM minimum
-- Current droplet: 1GB RAM (may need Tier 1 upgrade to 4GB for browser + existing services)
+- Current droplet: 1GB RAM — **MUST upgrade to $24/mo (4GB) BEFORE installing Chrome**
+- 1GB + existing services (~500MB) + Chrome (~300-600MB) = OOM. This is a Phase 1 blocker.
+- Communicate via cross-sync to AI CoS as a prerequisite task.
 - Scaling tiers already documented in AI CoS SYSTEM-STATE.md
 
 **Cookie infrastructure:**
-- `/opt/ai-cos-mcp/cookies/` directory for per-domain cookie files
+- `/opt/ai-cos-mcp/cookies/` directory for per-domain cookie files (chmod 600)
 - Loading mechanism for Playwright/Stagehand/browser-use
 - Expiry monitoring in logs
+
+**Process supervision (all MCP servers):**
+- Every MCP server on the droplet gets a systemd unit file
+- Post-deploy verification: `systemctl status <service>` confirms running
+- Liveness health check: periodic curl/socket check, auto-restart on failure
+- Services: `ai-cos-mcp.service`, `web-tools-mcp.service` (new, Phase 1)
+- Logs: `journalctl -u <service>` for debugging
+
+**Deployment spec (`deploy.sh`):**
+- `rsync -avz --checksum --delete` from Skills Factory/AI CoS to droplet over Tailscale
+- Pre-deploy: verify remote is reachable, backup current state
+- Post-deploy: checksum verification, `systemctl restart <services>`, smoke test (health endpoint)
+- Writes `DEPLOYED_VERSION` file on droplet with git commit hash + timestamp
+- Secrets managed via `secrets-manifest.md`: lists every secret, where it lives, rotation schedule, who owns it
+
+**Disaster recovery for SQLite state:**
+- `web-logs.db` and `watch.db` are operational state — loss means losing monitoring baselines and log history
+- Backup: DigitalOcean automated snapshots (weekly) + `sqlite3 .dump` cron (daily, to `/opt/ai-cos-mcp/backups/`)
+- Recovery: restore from DO snapshot or re-import from dump file
+- Acceptable loss: up to 24 hours of log data (not mission-critical)
 
 ### Tasks for AI CoS Project (Cross-Sync)
 
@@ -752,8 +828,8 @@ These tasks will be communicated via cross-sync messages as Skills Factory phase
 
 ### Open Questions (Cloud Agent)
 
-- [ ] Droplet RAM upgrade timing (when to move from $12 to $24 plan)
-- [ ] ai-cos-mcp extension vs separate web-tools MCP server on droplet
+- [x] ~~Droplet RAM upgrade timing~~ — **DECIDED: Phase 1 prerequisite, $24/mo 4GB (Step 1.0)**
+- [x] ~~ai-cos-mcp extension vs separate web-tools MCP server~~ — **DECIDED: Separate web-tools MCP (fault isolation)**
 - [ ] Browserbase vs self-hosted browser on droplet for persistent sessions
 - [ ] Computer Use API viability on droplet (needs Xvfb + display server)
 - [ ] How Agent SDK runners call MCP tools (MCP client library vs HTTP calls to local server)
@@ -795,9 +871,9 @@ Run Firecrawl MCP, Playwright MCP, or browser-use MCP on the droplet alongside a
 
 **NOTE:** Firecrawl MCP runs via `npx firecrawl-mcp` locally — there is NO hosted MCP endpoint from Firecrawl. Any CAI access to Firecrawl requires running it on a server with remote MCP transport.
 
-**Recommendation:** Start with Option A (extend ai-cos-mcp with key web tools — scrape, search). This avoids standing up a second MCP server and leverages the existing Cloudflare Tunnel at `mcp.3niac.com`. Add simple web tools (URL extraction, search) to ai-cos-mcp first. If web tool count grows or browser operations need isolation (Chrome process alongside MCP server), move to Option C (separate web-tools MCP on droplet with its own Tunnel). Option B (separate MCP, same Tunnel) as middle ground.
+**Decision (resolved):** Option C — separate web-tools MCP on droplet with its own Cloudflare Tunnel (e.g., `https://web.3niac.com/mcp`). This is consistent with the fault isolation decision in Section 7 (M10): Chrome must not share a process with ai-cos-mcp. Simple web tools (URL extraction, search) can still be added to ai-cos-mcp for convenience — browser-dependent operations go through web-tools MCP.
 
-**Timing:** Option A begins when Phase 2 ships (scrape skill needs CAI testing). Cross-sync message to AI CoS triggers this work.
+**Timing:** web-tools MCP setup begins in Phase 1 (alongside Chrome installation on droplet). CAI connector added once the Tunnel is live. Cross-sync message to AI CoS triggers this work.
 
 ### Tasks for CAI Setup
 
@@ -810,7 +886,7 @@ Run Firecrawl MCP, Playwright MCP, or browser-use MCP on the droplet alongside a
 
 - [ ] Can CAI connect to Chrome DevTools MCP running on the droplet?
 - [ ] Latency impact of remote MCP calls for browser operations
-- [ ] How to encode the 5-dimension decision framework in CAI project instructions (no skill system)
+- [ ] How to encode the 6-dimension decision framework in CAI project instructions (no skill system)
 - [ ] Rate limits on remote MCP connectors in CAI
 
 ---
@@ -819,7 +895,7 @@ Run Firecrawl MCP, Playwright MCP, or browser-use MCP on the droplet alongside a
 
 ### Phase 0: Tool Evaluation (BLOCKING — must complete before Phase 1)
 
-Hands-on evaluation of every tool in Layer 1. The 5-dimension framework can only be built on verified capabilities, not documentation claims.
+Hands-on evaluation of every tool in Layer 1. The 6-dimension framework can only be built on verified capabilities, not documentation claims.
 
 **Evaluation targets:**
 
@@ -829,11 +905,11 @@ Hands-on evaluation of every tool in Layer 1. The 5-dimension framework can only
 | Firecrawl MCP | Scrape, crawl, search, extract, agent mode | Extract structured data from 3 different site types (SaaS, blog, e-commerce) | Clean output, schema extraction works, agent mode produces usable results |
 | browser-use MCP | Reliability, token efficiency, autonomous planning | Multi-step task: search for product, compare prices, extract results | Completes task autonomously, token cost acceptable |
 | Browserbase | Isolated sessions, proxy rotation, anti-detection, persistent sessions | Access a bot-hostile site (LinkedIn), maintain session across multiple commands | Session persists, bot detection evaded, pricing viable |
-| Stagehand (existing) | Verify v3 features, auto-caching, act/extract/observe | Repeat a navigation flow 3 times, verify caching kicks in | 2nd+ runs faster, cached selectors work |
+| Stagehand (existing) | Verify v3 features, auto-caching, act/extract/observe | Repeat a navigation flow 3 times, verify caching kicks in | 2nd+ run at least 30% faster, debug log confirms cached selector reuse |
 | Cookie extraction | Extract cookies from Safari, Chrome, Arc | Export cookies for 3 domains, verify format, load into Playwright | Netscape format output, Playwright accepts cookies, authenticated page loads |
 | Playwright MCP (existing) | Verify current capabilities, token cost baseline | Same navigation flow as Stagehand test | Baseline token cost and latency documented |
 
-**Deliverable:** `Web & Browsers/phase-0-tool-evaluation.md` — results for each tool, recommendation for inclusion/exclusion in Layer 1, any surprises that affect the 5-dimension framework.
+**Deliverable:** `Web & Browsers/phase-0-tool-evaluation.md` — results for each tool, recommendation for inclusion/exclusion in Layer 1, any surprises that affect the 6-dimension framework.
 
 **Cookie extraction evaluation (elevated from open question):** This is NOT a minor evaluation. Production cookie handling requires:
 1. Reliable extraction from multiple browsers (Safari keychain, Chrome SQLite, Arc)
@@ -844,15 +920,32 @@ Hands-on evaluation of every tool in Layer 1. The 5-dimension framework can only
 
 Evaluate: gstack's compiled binary approach, direct SQLite reading of browser cookie DBs, Python `browser_cookie3` library, `yt-dlp --cookies-from-browser` (current hack — assess limitations), and any other dedicated tools. The winner becomes the foundation of the auth specialist's cookie sync script.
 
-**Phase 0 testing gate:** Evaluation report complete. No skill development begins until tool capabilities are verified hands-on.
+**Phase 0 deliverables:**
+1. `Web & Browsers/phase-0-tool-evaluation.md` — results for each tool, recommendation for inclusion/exclusion
+2. `Web & Browsers/layer-1-toolset.md` — formal decision record: which tools made it into Layer 1, which were excluded and why. This is the transition gate from Layer 1 (tools) to Layer 2 (specialists). No specialist development begins until this document exists.
+
+**Phase 0 testing gate:** Evaluation report complete. Layer 1 toolset decided. No skill development begins until tool capabilities are verified hands-on.
+
+**Phase 0 failure scenarios (5):**
+1. Chrome DevTools MCP fails to connect to Chrome process → verify error message is actionable, not silent hang
+2. Firecrawl returns empty result on a page with clear content → verify fallback to WebFetch or Playwright
+3. browser-use exceeds 60s timeout on a simple task → verify timeout handling, not infinite loop
+4. Cookie extraction script fails on locked Safari keychain → verify error, not corrupted output
+5. Browserbase session creation fails (API key invalid, quota exceeded) → verify error, not silent null session
 
 ---
 
 ### Phase 1: Foundation — auth + browse + web-router
 
+**Step 1.0: Droplet RAM Upgrade (PREREQUISITE — must complete before any Chrome install)**
+- Upgrade DigitalOcean droplet from $12/mo (1GB) to $24/mo (4GB)
+- 1GB + existing services (~500MB) + Chrome (~300-600MB) = OOM
+- Cross-sync to AI CoS as blocker: `{"type": "task", "content": "BLOCKER: Upgrade droplet to $24/mo (4GB) before any Chrome/Playwright install. Current 1GB will OOM.", "priority": "urgent"}`
+
 **Step 1.1: Tool Configuration (based on Phase 0 results)**
-- Install Chrome DevTools MCP globally: add to `~/.mcp.json` as `{"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest"]}}`
-- Install Firecrawl MCP globally: add to `~/.mcp.json` as `{"firecrawl": {"command": "npx", "args": ["-y", "firecrawl-mcp"], "env": {"FIRECRAWL_API_KEY": "..."}}}` (canonical config method — all MCPs go in ~/.mcp.json)
+- Pin all MCP versions in `~/.mcp.json` (not `@latest` — explicit versions for reproducibility)
+- Install Chrome DevTools MCP globally: add to `~/.mcp.json` as `{"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@1.x.x"]}}`
+- Install Firecrawl MCP globally: add to `~/.mcp.json` as `{"firecrawl": {"command": "npx", "args": ["-y", "firecrawl-mcp@1.x.x"], "env": {"FIRECRAWL_API_KEY": "..."}}}` (canonical config method — all MCPs go in ~/.mcp.json, pinned versions)
 - Verify existing Playwright MCP and Stagehand plugin work
 - Evaluate browser-use MCP server: install, test, assess value
 - Evaluate Browserbase: create account, test isolated sessions, assess pricing
@@ -868,7 +961,7 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 
 **Step 1.3: Build `browse` specialist** (SKILL-CRAFT methodology)
 - Development log in `Web & Browsers/browse/skill-development-log.md`
-- Encode 5-dimension tool selection framework as expertise
+- Encode 6-dimension tool selection framework as expertise
 - Environment awareness (CC/CAI/Agent SDK paths)
 - Reference docs for grounding (tool APIs, patterns)
 - Uses auth specialist for authenticated browsing
@@ -884,11 +977,23 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 
 | Surface | Test Scenario | Pass Criteria |
 |---|---|---|
-| CC | "Navigate to HN, search for 'Claude', extract top 3 results" | browse activates, tool selected, results returned |
-| CC | "Log into [test site] and extract dashboard data" | auth activates, cookie injected, data extracted |
-| CC | web-router correctly classifies and routes | Routing logged, correct specialist invoked |
-| CAI | "Search for [topic]" via MCP | Existing search works, CAI path verified |
-| CAI | "Scrape [public URL]" via Firecrawl MCP | Firecrawl MCP configured and working in CAI |
+| CC | "Navigate to HN, search for 'Claude', extract top 3 results" | (1) browse specialist activated by router, (2) tool selection logged with all 6 dimensions, (3) results contain ≥3 items with title+URL fields |
+| CC | "Log into [test site] and extract dashboard data" | (1) auth specialist activated, (2) cookie injected successfully, (3) dashboard data extracted with expected fields |
+| CC | web-router correctly classifies and routes | (1) Routing decision logged as YAML, (2) correct specialist invoked, (3) composite task correctly classified if multi-specialist |
+| CC | Observability log verification | (1) Log file exists at `~/.claude/web-logs/`, (2) valid YAML, (3) all required fields present (timestamp, specialist, task, environment, dimensions, tool_selected, reasoning, outcome) |
+| CAI | "Search for [topic]" via MCP | (1) Search tool activated, (2) results returned with sources, (3) routing logged on droplet |
+| CAI | "Scrape [public URL]" via Firecrawl MCP | (1) Firecrawl MCP responds, (2) clean markdown returned, (3) extraction matches expected content |
+| Agent SDK | Runner loads browse reference doc and navigates URL | (1) Reference doc loaded into system prompt, (2) navigation succeeds, (3) tool selection reasoning in output |
+
+**Phase 1 failure scenarios (6):**
+1. URL returns 403 Forbidden → verify graceful error message, not raw HTTP dump
+2. Expired cookie used for authenticated browse → verify auth escalation to next layer, not silent failure
+3. MCP server timeout (Chrome DevTools MCP hangs) → verify 30s timeout fires, fallback activates
+4. Rate-limited by target site (429) → verify backoff + retry, not immediate failure
+5. Browserbase session creation fails → verify error, fallback to local Playwright
+6. web-router receives ambiguous task ("check this site") → verify classification logged, reasonable default chosen
+
+**Phase 1 rollback drill:** After first deployment to `~/.claude/skills/`, intentionally revert a reference doc to a previous version via `git checkout`. Verify: (1) rollback is clean, (2) skill still functions with older version, (3) process documented for future use.
 
 **Cross-Sync to AI CoS:**
 ```json
@@ -904,11 +1009,18 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 
 | Surface | Test Scenario | Pass Criteria |
 |---|---|---|
-| CC | "Extract all pricing plans from [SaaS site] as JSON" | Schema extraction works, typed output |
-| CC | "Crawl [site] and extract all blog post titles + dates" | Bulk crawl + extraction works |
-| CC | "Research [topic] deeply" | search v3 routes correctly, observability logs |
-| CAI | "Extract data from [URL]" via Firecrawl MCP | Works in CAI |
-| Agent SDK | Runner calls Firecrawl MCP to extract a company profile page | Structured data returned, matches expected schema |
+| CC | "Extract all pricing plans from [SaaS site] as JSON" | (1) Schema extraction returns typed JSON, (2) all expected fields present, (3) tool selection logged |
+| CC | "Crawl [site] and extract all blog post titles + dates" | (1) Bulk crawl discovers ≥5 pages, (2) extraction returns title+date for each, (3) no duplicate entries |
+| CC | "Research [topic] deeply" | (1) search v3 routes to correct tool, (2) observability log written, (3) results include ≥3 sources |
+| CAI | "Extract data from [URL]" via Firecrawl MCP | (1) Firecrawl MCP responds in CAI, (2) clean structured output, (3) matches CC output quality |
+| Agent SDK | Runner calls Firecrawl MCP to extract a company profile page | (1) Structured data returned, (2) matches expected schema fields, (3) tool selection reasoning logged |
+
+**Phase 2 failure scenarios (5):**
+1. Rate-limited during bulk crawl (429 on page 3 of 10) → verify graceful partial results + retry, not total failure
+2. Firecrawl returns empty extraction for a page with clear content → verify fallback to Playwright DOM parsing
+3. Search query returns no results from primary tool → verify fallback chain activates (Context7 → WebSearch → Exa)
+4. Schema extraction mismatches (expected 5 fields, got 3) → verify partial result flagged, not silently accepted
+5. Crawl discovers 500+ pages (unexpected scope) → verify depth/count limit fires, user prompted before continuing
 
 **Cross-Sync to AI CoS:**
 ```json
@@ -924,10 +1036,19 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 
 | Surface | Test Scenario | Pass Criteria |
 |---|---|---|
-| CC | "QA test localhost:3000" | Full QA report with health score, screenshots, issues |
-| CC | "Run diff-aware QA on this branch" | Detects changed pages, tests only those |
-| CC | "Audit performance of digest.wiki" | Lighthouse score, CrUX data, specific prescriptions |
-| CAI | "Check performance of [public URL]" | perf-audit works via MCP path |
+| CC | "QA test localhost:3000" | (1) Full QA report generated, (2) health score is numeric 0-100, (3) ≥1 screenshot captured, (4) issues have severity + description |
+| CC | "Run diff-aware QA on this branch" | (1) Git diff analyzed, (2) only changed pages tested, (3) report scoped to affected areas |
+| CC | "Audit performance of digest.wiki" | (1) Lighthouse score returned, (2) CrUX data if available, (3) ≥3 specific prescriptions with expected impact |
+| CC | QA calibration: run QA on page with planted defects | (1) Health score decreases vs clean baseline, (2) planted defects appear in issue list, (3) severity ratings match expected (critical bug = critical, not minor) |
+| CAI | "Check performance of [public URL]" | (1) perf-audit returns Lighthouse scores via MCP, (2) prescriptions returned, (3) format matches CC output quality |
+
+**Phase 3 failure scenarios (6):**
+1. localhost:3000 is down when QA runs → verify diagnostic message ("server not responding"), not cryptic Playwright error
+2. Lighthouse audit times out on heavy page → verify partial results returned + timeout warning
+3. Chrome DevTools MCP disconnects mid-audit → verify reconnection attempt, graceful partial report
+4. QA finds 50+ issues → verify prioritized output (critical first), not overwhelming dump
+5. Diff-aware QA on branch with no frontend changes → verify "no frontend changes detected" message, not empty report
+6. Performance audit on site behind CDN returns cached metrics → verify CDN detection noted in report
 
 **Cross-Sync to AI CoS:**
 ```json
@@ -942,8 +1063,15 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 
 | Surface | Test Scenario | Pass Criteria |
 |---|---|---|
-| CC | "Watch [competitor] pricing page for changes" | Baseline captured, diff mechanism works |
-| Agent SDK | Scheduled monitoring task runs on cron | Autonomous operation, alerting works |
+| CC | "Watch [competitor] pricing page for changes" | (1) Baseline captured as JSON, (2) diff mechanism detects changes on re-check, (3) alert format is actionable |
+| Agent SDK | Scheduled monitoring task runs on cron | (1) Cron executes autonomously, (2) state persists in SQLite, (3) alert fires on detected change |
+
+**Phase 4 failure scenarios (5):**
+1. Monitored URL returns 404 on second check → verify alert fires with "page removed" message, not crash
+2. Content changes but diff is below threshold → verify no false alert, threshold logic works
+3. SQLite DB locked during concurrent cron + manual check → verify graceful retry, not corruption
+4. Monitored site changes structure (new DOM) but same content → verify no false positive from structural diff
+5. Watch baseline is 30+ days old → verify staleness warning, offer to re-baseline
 
 **Cross-Sync to AI CoS:**
 ```json
@@ -956,12 +1084,21 @@ Evaluate: gstack's compiled binary approach, direct SQLite reading of browser co
 **Step 5.2: Update a11y-audit** (web.dev patterns, Chrome DevTools, WCAG 2.2)
 **Step 5.3: Update CLAUDE.md production standards** (CSS anti-patterns, Vite default, Browserslist)
 
+**CLAUDE.md merge safety:** CLAUDE.md changes in Phase 5 are committed atomically — one commit per section update, between phases, not mid-phase. This prevents partial updates from affecting other skills during active development.
+
 **Testing Gate — Phase 5:**
 
 | Surface | Test Scenario | Pass Criteria |
 |---|---|---|
-| CC | "Build a pricing page component" | Uses container queries (not media queries), oklch colors, no AOS, Vite scaffold |
-| CC | "Audit accessibility of [component]" | Uses updated patterns, Chrome DevTools Lighthouse |
+| CC | "Build a pricing page component" | (1) Uses container queries (not media queries), (2) oklch colors, (3) no AOS/ScrollReveal, (4) Vite scaffold if new project |
+| CC | "Audit accessibility of [component]" | (1) Uses Chrome DevTools Lighthouse, (2) WCAG 2.2 AA checks, (3) 44px touch targets flagged |
+
+**Phase 5 failure scenarios (5):**
+1. Context7 unreachable when querying Vite docs → verify fallback to baked-in knowledge with staleness warning
+2. shadcn MCP returns outdated component API → verify component version checked, not blindly used
+3. Generated CSS uses features below baseline → verify Browserslist check fires, not silent incompatibility
+4. CLAUDE.md edit conflicts with existing rules → verify atomic commit, not partial merge
+5. Design system enforcer and a11y audit conflict on a recommendation → verify precedence noted (a11y wins for accessibility, design for aesthetics)
 
 **Cross-Sync to AI CoS:**
 ```json
@@ -1033,6 +1170,7 @@ dimensions:
   hostility: hostile (LinkedIn bot detection)
   auth: cookie-sync (LinkedIn session)
   complexity: multi-step (navigate → scroll → extract)
+  output_format: structured-json
   cost: medium
 tool_selected: browserbase + stagehand
 reasoning: "LinkedIn detects headless. Browserbase isolated session protects real auth. Stagehand for navigation + extraction."
@@ -1079,10 +1217,20 @@ Logs accumulate per-specialist
 
 Every skill update MUST be tested against the same test scenarios used for initial validation (from the Testing Gates in Section 9) before deploying to `~/.claude/skills/`.
 
+**Structural regression comparison (for non-deterministic LLM output):**
+
+LLM output varies between runs — same skill + same scenario produces different wording. Regression testing uses structural field matching, not text comparison:
+
+1. **Required signals:** Each test scenario defines 3-5 required signals that MUST appear in output (e.g., `tool_selected: firecrawl`, extracted JSON has `price` field, report includes `health_score`). These are structural, not textual.
+2. **Field matching:** Specific output fields must match expected types/values (e.g., health score is numeric 0-100, extracted JSON has all schema fields, routing log has all 6 dimensions).
+3. **Negative signals:** Things that must NOT appear (e.g., hallucinated tool names, empty extraction fields, missing fallback activation on expected failure).
+
+Codified in `phase-N-baseline.md` as: `| Scenario | Required Signals (3-5) | Field Matches | Negative Signals |`
+
 **Process:**
 1. Update specialist reference doc in Skills Factory
 2. Run the phase's test scenarios in CC
-3. Compare output quality against baseline (documented in test gate pass criteria)
+3. Check required signals present, field matches correct, negative signals absent
 4. If regression detected: revert in git, investigate, fix, re-test
 5. Only deploy to `~/.claude/skills/` after test pass
 
@@ -1119,10 +1267,10 @@ Stored in `Web & Browsers/baselines/phase-N-baseline.md`.
 
 ### Architecture Unknowns
 
-- [ ] Extend ai-cos-mcp vs separate web-tools MCP on droplet
+- [x] ~~Extend ai-cos-mcp vs separate web-tools MCP on droplet~~ — **DECIDED: Separate web-tools MCP (Section 7, M10)**
 - [ ] How Agent SDK runners consume MCP tools (client library vs HTTP)
 - [ ] CAI project instructions capacity for encoding decision framework
-- [ ] Droplet RAM upgrade timing for browser runtime
+- [x] ~~Droplet RAM upgrade timing for browser runtime~~ — **DECIDED: Phase 1 prerequisite, $24/mo 4GB (Section 9, B5)**
 
 ### Process Unknowns
 
@@ -1136,14 +1284,14 @@ Stored in `Web & Browsers/baselines/phase-N-baseline.md`.
 
 | # | Deliverable | Type | Lives In | Target Environment |
 |---|---|---|---|---|
-| 1 | `web-router` skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC primarily, knowledge in CAI |
-| 2 | `browse` skill | Skill (SKILL.md + reference docs) | ~/.claude/skills/ + Skills Factory source | CC primarily, knowledge in CAI |
-| 3 | `scrape` skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC + CAI (via Firecrawl MCP) |
-| 4 | `search` v3 skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC + CAI |
-| 5 | `qa` skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC primarily |
-| 6 | `auth` skill | Skill (SKILL.md) + scripts | ~/.claude/skills/ + Skills Factory source | CC + Agent SDK |
-| 7 | `perf-audit` skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC + CAI (via Chrome DevTools MCP) |
-| 8 | `watch` skill | Skill (SKILL.md) | ~/.claude/skills/ + Skills Factory source | CC + Agent SDK (cron) |
+| 1 | `web-router` skill | Skill (SKILL.md) | ~/.claude/skills/web-router/ + Skills Factory source | CC primarily, knowledge in CAI |
+| 2 | `browse` reference doc | Reference doc (browse.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC primarily, knowledge in CAI |
+| 3 | `scrape` reference doc | Reference doc (scrape.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC + CAI (via Firecrawl MCP) |
+| 4 | `search` v3 reference doc | Reference doc (search.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC + CAI |
+| 5 | `qa` reference doc | Reference doc (qa.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC primarily |
+| 6 | `auth` reference doc + scripts | Reference doc (auth.md) + scripts | ~/.claude/skills/web-router/references/ + Skills Factory source | CC + Agent SDK |
+| 7 | `perf-audit` reference doc | Reference doc (perf-audit.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC + CAI (via Chrome DevTools MCP) |
+| 8 | `watch` reference doc | Reference doc (watch.md) | ~/.claude/skills/web-router/references/ + Skills Factory source | CC + Agent SDK (cron) |
 | 9 | `design-system-enforcer` update | Skill update | ~/.claude/skills/ + Skills Factory source | CC |
 | 10 | `a11y-audit` update | Skill update | ~/.claude/skills/ + Skills Factory source | CC |
 | 11 | CLAUDE.md production standards update | Config update | ~/.claude/CLAUDE.md | CC (always loaded) |
