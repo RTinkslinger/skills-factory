@@ -14,6 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MANIFEST=(
   "Cash Build System/setup-cash-build-system-v1.1-beta.md:commands:setup-cash-build-system.md"
   "Cash Build System/cash-build-system-version-history.md:documents:cash-build-system-version-history.md"
+  "Learn From/learn-from.md:commands:learn-from.md"
 )
 
 # ── Parse args ────────────────────────────────────────────────────
